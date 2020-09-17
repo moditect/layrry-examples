@@ -1,0 +1,27 @@
+= Modular Tiles
+
+A sample modular JavaFX application configured with link:https://github.com/moditect/layrry/[Layrry].
+
+== Build and Run
+
+.Prerequisites
+
+- JDK 11
+- Maven 3.6.3 or Gradle 6+
+- link:https://github.com/jbangdev/jbang[jbang]
+
+.Maven
+
+```sh
+$ mvn install
+$ jbang layrry@moditect --layers-config layers.yml
+
+```
+
+.Gradle
+
+```sh
+$ ./gradle publishToMavenLocal
+$ jbang layrry@moditect --layers-config layers.yml
+
+```

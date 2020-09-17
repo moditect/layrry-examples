@@ -1,0 +1,63 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright 2020 Andres Almiray.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+buildscript {
+    repositories {
+        gradlePluginPortal()
+        jcenter()
+        mavenLocal()
+    }
+    dependencies {
+        classpath "org.kordamp.gradle:java-project-gradle-plugin:$kordampPluginVersion"
+        classpath "org.kordamp.gradle:settings-gradle-plugin:$kordampPluginVersion"
+        classpath "org.kordamp.gradle:enforcer-gradle-plugin:$enforcerPluginVersion"
+        classpath "org.javamodularity:moduleplugin:$modularityPluginVersion"
+        classpath "org.openjfx:javafx-plugin:$openjfxPluginVersion"
+    }
+}
+apply plugin: 'org.kordamp.gradle.settings'
+apply plugin: 'org.kordamp.gradle.enforcer'
+
+rootProject.name = 'modular-tiles'
+
+projects {
+    plugins {
+        all {
+            id 'idea'
+        }
+        path(':') {
+            id 'org.kordamp.gradle.java-project'
+        }
+        dirs(['core', 'tiles', 'app']) {
+            id 'java-library'
+            id 'org.javamodularity.moduleplugin'
+            id 'org.openjfx.javafxplugin'
+        }
+        dir('app') {
+            id 'application'
+        }
+    }
+}
+
+enforce {
+    rule(enforcer.rules.EnforceBytecodeVersion) { r ->
+        r.maxJdkVersion.set(settings.ext.javaVersion)
+    }
+    rule(enforcer.rules.RequireJavaVersion) { r ->
+        r.version.set(settings.ext.javaVersion)
+    }
+}
