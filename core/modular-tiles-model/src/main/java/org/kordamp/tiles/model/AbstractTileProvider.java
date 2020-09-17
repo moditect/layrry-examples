@@ -21,12 +21,9 @@ import eu.hansolo.tilesfx.Tile;
 import javafx.scene.Node;
 
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Function;
 
 public abstract class AbstractTileProvider implements TileProvider {
-    private final String tileId = getClass().getName() + "-" + UUID.randomUUID().toString();
-
     @Override
     public void register(TileContext context) {
         Optional<Node> existingTile = context.getTileContainer().getChildren()

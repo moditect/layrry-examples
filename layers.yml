@@ -36,16 +36,15 @@ layers:
       - "org.kordamp.tiles:modular-tiles-core:0.0.0"
     parents:
       - "api"
-  plugins:
-    parents:
-      - "api"
-    directory: ./plugins
   app:
     parents:
       - "core"
-      - "plugins"
     modules:
       - "org.kordamp.tiles:modular-tiles-app:0.0.0"
+  plugins:
+    parents:
+      - "core"
+    directory: ./plugins
 main:
   module: "org.kordamp.tiles.app"
   class: "org.kordamp.tiles.app.Main"

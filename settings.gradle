@@ -55,6 +55,7 @@ projects {
 
 enforce {
     rule(enforcer.rules.EnforceBytecodeVersion) { r ->
+        r.enabled = false
         r.maxJdkVersion.set(settings.ext.javaVersion)
     }
     rule(enforcer.rules.RequireJavaVersion) { r ->
