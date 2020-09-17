@@ -21,7 +21,7 @@ $ jbang layrry@moditect --layers-config layers.yml
 .Gradle
 
 ```sh
-$ ./gradle publishToMavenLocal
+$ ./gradlew publishToMavenLocal
 $ jbang layrry@moditect --layers-config layers.yml
 
 ```
