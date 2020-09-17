@@ -24,18 +24,14 @@ layers:
       - "org.openjfx:javafx-graphics:jar:mac:11.0.2"
       - "org.openjfx:javafx-web:jar:mac:11.0.2"
       - "org.openjfx:javafx-media:jar:mac:11.0.2"
-  api:
+  core:
     modules:
       - "org.kordamp.tiles:modular-tiles-model:0.0.0"
+      - "org.kordamp.tiles:modular-tiles-core:0.0.0"
       - "org.moditect.layrry:layrry-platform:1.0-SNAPSHOT"
       - "eu.hansolo:tilesfx:11.44"
     parents:
       - "javafx"
-  core:
-    modules:
-      - "org.kordamp.tiles:modular-tiles-core:0.0.0"
-    parents:
-      - "api"
   app:
     parents:
       - "core"
@@ -44,7 +40,7 @@ layers:
   plugins:
     parents:
       - "core"
-    directory: ./plugins
+    directory: plugins
 main:
   module: "org.kordamp.tiles.app"
   class: "org.kordamp.tiles.app.Main"

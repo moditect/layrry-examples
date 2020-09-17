@@ -47,6 +47,9 @@ projects {
             id 'org.javamodularity.moduleplugin'
             id 'org.openjfx.javafxplugin'
         }
+        dir('tiles') {
+            id 'distribution'
+        }
         dir('app') {
             id 'application'
         }

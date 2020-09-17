@@ -22,3 +22,15 @@ dependencies {
 application {
     mainClassName = 'org.kordamp.tiles.app/org.kordamp.tiles.app.Main'
 }
+
+task copyTiles(type: Copy) {
+    dependsOn project(':tile-clock').distTar,
+              project(':tile-gauge').distTar,
+              project(':tile-sparkline').distTar
+    from tarTree(project(':tile-clock').distTar.archiveFile),
+         tarTree(project(':tile-gauge').distTar.archiveFile),
+         tarTree(project(':tile-sparkline').distTar.archiveFile)
+    into("${project.buildDir}/plugins-prepared")
+}
+
+assemble.dependsOn copyTiles

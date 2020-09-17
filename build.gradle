@@ -135,6 +135,19 @@ projects {
             dependencies {
                 api project(':modular-tiles-model')
             }
+
+            distributions {
+                main {
+                    contents {
+                        into("/${project.name}-${project.version}")
+                        from jar.outputs
+                    }
+                }
+            }
+            distTar {
+                compression = Compression.GZIP
+                archiveExtension = 'tar.gz'
+            }
         }
     }
 }

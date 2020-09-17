@@ -42,8 +42,8 @@
     <modules>
         <module>core/modular-tiles-model</module>
         <module>core/modular-tiles-core</module>
-        <module>app/modular-tiles-app</module>
         <module>tiles</module>
+        <module>app/modular-tiles-app</module>
     </modules>
 
     <dependencyManagement>

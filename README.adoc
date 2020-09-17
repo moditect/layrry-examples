@@ -14,14 +14,20 @@ A sample modular JavaFX application configured with link:https://github.com/modi
 
 ```sh
 $ mvn install
-$ jbang layrry@moditect --layers-config layers.yml
-
 ```
+
+Plugins will be placed under `app/modular-tiles/app/target/plugins-prepared`.
 
 .Gradle
 
 ```sh
-$ ./gradlew publishToMavenLocal
-$ jbang layrry@moditect --layers-config layers.yml
+$ ./gradlew assemble publishToMavenLocal
+```
 
+Plugins will be placed under `app/modular-tiles/app/build/plugins-prepared`.
+
+Run the application with
+
+```sh
+$ jbang layrry@moditect --layers-config layers.yml
 ```
