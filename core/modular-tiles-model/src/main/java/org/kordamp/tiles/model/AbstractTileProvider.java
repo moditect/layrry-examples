@@ -24,6 +24,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public abstract class AbstractTileProvider implements TileProvider {
+    private static final String TILE_ID = "TILE_ID";
+
     @Override
     public void register(TileContext context) {
         Optional<Node> existingTile = context.getTileContainer().getChildren()
@@ -33,7 +35,7 @@ public abstract class AbstractTileProvider implements TileProvider {
 
         if (existingTile.isEmpty()) {
             Tile tile = createTile(context);
-            tile.getProperties().put("TILE_ID", getTileId());
+            tile.getProperties().put(TILE_ID, getTileId());
             context.getTileContainer().getChildren().add(tile);
         }
     }
@@ -49,11 +51,11 @@ public abstract class AbstractTileProvider implements TileProvider {
         return getClass().getName();
     }
 
-    private boolean idMatches(Node node) {
+    private boolean idMatches(final Node node) {
         return idMatcher(getTileId()).apply(node);
     }
 
-    private Function<Node, Boolean> idMatcher(String id) {
-        return node -> id.equals(node.getProperties().get("TIlE_ID"));
+    private Function<Node, Boolean> idMatcher(final String id) {
+        return node -> id.equals(node.getProperties().get(TILE_ID));
     }
 }

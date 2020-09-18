@@ -36,6 +36,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         View view = new View(TILE_WIDTH, TILE_HEIGHT);
+        loadTiles();
 
         PerspectiveCamera camera = new PerspectiveCamera();
         camera.setFieldOfView(10);
@@ -45,14 +46,13 @@ public class Main extends Application {
 
         stage.setTitle("Modular TilesFX");
         stage.setScene(scene);
-        stage.setMinWidth(TILE_WIDTH * 3);
+        stage.setMinWidth((TILE_WIDTH * 3) + 20);
         stage.setMinHeight(TILE_HEIGHT + 30);
         stage.show();
-
-        loadTiles();
     }
 
     private void loadTiles() {
+        // FIXME: tiles can only be loaded from "plugin" layer
         ServiceLoader<TileProvider> services = ServiceLoader.load(Main.class.getModule().getLayer(), TileProvider.class);
         services.forEach(tileProvider -> Platform.runLater(() -> tileProvider.register(TileContext.getInstance())));
     }
