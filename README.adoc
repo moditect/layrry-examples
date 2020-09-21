@@ -2,21 +2,20 @@
 
 A sample modular JavaFX application configured with link:https://github.com/moditect/layrry/[Layrry].
 
-== Build and Run
+== Build
 
 .Prerequisites
 
 - JDK 11
-- Maven 3.6.3 or Gradle 6+
-- link:https://github.com/jbangdev/jbang[jbang]
+- Maven 3.6.3 or Gradle 6+ (project includes wrappers for each)
 
 .Maven
 
 ```sh
-$ mvn install
+$ ./mvnw install
 ```
 
-Plugins will be placed under `app/modular-tiles/app/target/plugins-prepared`.
+Plugins will be placed under `app/modular-tiles-launcher/target/plugins-prepared`.
 
 .Gradle
 
@@ -24,10 +23,30 @@ Plugins will be placed under `app/modular-tiles/app/target/plugins-prepared`.
 $ ./gradlew assemble publishToMavenLocal
 ```
 
-Plugins will be placed under `app/modular-tiles/app/build/plugins-prepared`.
+Plugins will be placed under `app/modular-tiles-launcher/build/plugins-prepared`.
 
-Run the application with
+== Run
+
+.Maven
 
 ```sh
-$ jbang layrry@moditect --layers-config layers.yml
+$ ./mvnw -am -pl :modular-tiles-launcher run
+```
+
+The `plugins` directory is located at the root of the project. Copy plugins from the launcher
+
+```sh
+$ cp app/modular-tiles-launcher/target/plugins-prepared/tiles-* plugins
+```
+
+.Gradle
+
+```sh
+$ ./gradlew :modular-tiles-launcher:run
+```
+
+The `plugins` directory is located at `app/modular-tiles-launcher` project. Copy plugins from the launcher
+
+```sh
+$ cp app/modular-tiles-launcher/build/plugins-prepared/tiles-* app/modular-tiles-launcher/plugins
 ```
