@@ -30,7 +30,7 @@ Plugins will be placed under `app/modular-tiles-launcher/build/plugins-prepared`
 .Maven
 
 ```sh
-$ ./mvnw -am -pl :modular-tiles-launcher run
+$ ./mvnw -am -pl :modular-tiles-launcher exec:java
 ```
 
 The `plugins` directory is located at the root of the project. Copy plugins from the launcher
