@@ -31,12 +31,15 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
-        <javafx.version>11.0.2</javafx.version>
+        <javafx_version>11.0.2</javafx_version>
         <javafx.plugin.version>0.0.4</javafx.plugin.version>
-        <layrry.version>1.0-SNAPSHOT</layrry.version>
-        <tilesfx.version>11.44</tilesfx.version>
+        <layrry_version>1.0-SNAPSHOT</layrry_version>
+        <tiles_version>${project.version}</tiles_version>
+        <tilesfx_version>11.44</tilesfx_version>
         <javafx.skip>true</javafx.skip>
         <javafx.mainClass>org.kordamp.tiles.app/org.kordamp.tiles.app.Main</javafx.mainClass>
+        <exec.skip>true</exec.skip>
+        <exec.mainClass>org.kordamp.tiles.launcher.Launcher</exec.mainClass>
     </properties>
 
     <modules>
@@ -44,6 +47,7 @@
         <module>core/modular-tiles-core</module>
         <module>tiles</module>
         <module>app/modular-tiles-app</module>
+        <module>app/modular-tiles-launcher</module>
     </modules>
 
     <dependencyManagement>
@@ -59,39 +63,69 @@
                 <version>${project.version}</version>
             </dependency>
             <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>tile-clock-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>tile-gauge-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>tile-sparkline-plugin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.moditect.layrry</groupId>
+                <artifactId>layrry-config-yaml</artifactId>
+                <version>${layrry_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.moditect.layrry</groupId>
+                <artifactId>layrry-config-toml</artifactId>
+                <version>${layrry_version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.moditect.layrry</groupId>
+                <artifactId>layrry-launcher</artifactId>
+                <version>${layrry_version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.moditect.layrry</groupId>
                 <artifactId>layrry-platform</artifactId>
-                <version>${layrry.version}</version>
+                <version>${layrry_version}</version>
             </dependency>
             <dependency>
                 <groupId>eu.hansolo</groupId>
                 <artifactId>tilesfx</artifactId>
-                <version>${tilesfx.version}</version>
+                <version>${tilesfx_version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-base</artifactId>
-                <version>${javafx.version}</version>
+                <version>${javafx_version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-graphics</artifactId>
-                <version>${javafx.version}</version>
+                <version>${javafx_version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-controls</artifactId>
-                <version>${javafx.version}</version>
+                <version>${javafx_version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-web</artifactId>
-                <version>${javafx.version}</version>
+                <version>${javafx_version}</version>
             </dependency>
             <dependency>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-media</artifactId>
-                <version>${javafx.version}</version>
+                <version>${javafx_version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -114,12 +148,21 @@
                     <artifactId>javafx-maven-plugin</artifactId>
                     <version>${javafx.plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.6.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

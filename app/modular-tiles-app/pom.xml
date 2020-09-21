@@ -29,7 +29,7 @@
     </parent>
 
     <artifactId>modular-tiles-app</artifactId>
-    <name>modular-tiles-app</name>
+    <name>${project.artifactId}</name>
 
     <dependencies>
         <dependency>
@@ -46,47 +46,6 @@
                 <configuration>
                     <skip>false</skip>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-tiles</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>tile-clock-plugin</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>tar.gz</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/plugins-prepared</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>tile-gauge-plugin</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>tar.gz</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/plugins-prepared</outputDirectory>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>${project.groupId}</groupId>
-                                    <artifactId>tile-sparkline-plugin</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>tar.gz</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/plugins-prepared</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

@@ -1,0 +1,49 @@
+/*
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Copyright 2020 Andres Almiray.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+dependencies {
+    implementation "org.moditect.layrry:layrry-launcher:$layrryVersion"
+    implementation 'com.github.spullara.mustache.java:compiler:0.9.6'
+}
+
+application {
+    mainClassName = 'org.kordamp.tiles.launcher.Launcher'
+}
+
+ext.tilePlugins = [
+    ':tile-clock-plugin',
+    ':tile-gauge-plugin',
+    ':tile-sparkline-plugin'
+]
+
+task copyTiles(type: Copy) {
+    dependsOn tilePlugins.collect { plugin -> project(plugin).distTar }
+    from tilePlugins.collect { plugin -> tarTree(project(plugin).distTar.archiveFile) }
+    into("${project.buildDir}/plugins-prepared")
+}
+
+assemble.dependsOn copyTiles
+run.dependsOn copyTiles
+
+processResources {
+    expand(
+        'tiles_version': version,
+        'javafx_version': javafxVersion,
+        'tilesfx_version': tilesfxVersion,
+        'layrry_version': layrryVersion
+    )
+}
