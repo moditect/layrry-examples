@@ -33,9 +33,9 @@
     <name>modular-tiles-common</name>
 
     <modules>
-        <module>tile-clock</module>
-        <module>tile-gauge</module>
-        <module>tile-sparkline</module>
+        <module>tile-clock-plugin</module>
+        <module>tile-gauge-plugin</module>
+        <module>tile-sparkline-plugin</module>
     </modules>
 
     <dependencies>

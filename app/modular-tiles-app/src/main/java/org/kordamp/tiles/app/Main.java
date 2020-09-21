@@ -25,7 +25,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.kordamp.tiles.core.View;
 import org.kordamp.tiles.model.TileContext;
-import org.kordamp.tiles.model.TileProvider;
+import org.kordamp.tiles.model.TilePlugin;
 
 import java.util.ServiceLoader;
 
@@ -52,8 +52,7 @@ public class Main extends Application {
     }
 
     private void loadTiles() {
-        // FIXME: tiles can only be loaded from "plugin" layer
-        ServiceLoader<TileProvider> services = ServiceLoader.load(Main.class.getModule().getLayer(), TileProvider.class);
+        ServiceLoader<TilePlugin> services = ServiceLoader.load(Main.class.getModule().getLayer(), TilePlugin.class);
         services.forEach(tileProvider -> Platform.runLater(() -> tileProvider.register(TileContext.getInstance())));
     }
 

@@ -19,49 +19,50 @@ package org.kordamp.tiles.core;
 
 import javafx.application.Platform;
 import org.kordamp.tiles.model.TileContext;
-import org.kordamp.tiles.model.TileProvider;
+import org.kordamp.tiles.model.TilePlugin;
 import org.moditect.layrry.platform.PluginDescriptor;
 import org.moditect.layrry.platform.PluginLifecycleListener;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.ServiceLoader;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class TilePluginLifecycleListener implements PluginLifecycleListener {
-    private static final Map<ModuleLayer, Set<TileProvider>> PROVIDERS_BY_LAYER = new ConcurrentHashMap<>();
-
     @Override
     public void pluginAdded(PluginDescriptor plugin) {
-        Set<TileProvider> providers = new HashSet<>();
-
         ModuleLayer layer = plugin.getModuleLayer();
 
-        ServiceLoader<TileProvider> services = ServiceLoader.load(layer, TileProvider.class);
-        services.forEach(tileProvider -> {
-            if (tileProvider.getClass().getModule().getLayer() == layer) {
+        ServiceLoader<TilePlugin> plugins = ServiceLoader.load(layer, TilePlugin.class);
+        plugins.forEach(tilePlugin -> {
+            if (tilePlugin.getClass().getModule().getLayer() == layer) {
                 try {
                     Platform.runLater(() -> {
-                        tileProvider.register(TileContext.getInstance());
-                        providers.add(tileProvider);
+                        tilePlugin.register(TileContext.getInstance());
+                        PluginRegistry.getInstance().registerPlugin(tilePlugin);
                     });
                 } catch (IllegalStateException ignored) {
                     // JavaFX Toolkit may not have been initialized if plugin is loaded during boot time
                 }
             }
         });
-
-        PROVIDERS_BY_LAYER.put(layer, providers);
     }
 
     @Override
     public void pluginRemoved(PluginDescriptor plugin) {
         ModuleLayer layer = plugin.getModuleLayer();
 
-        Set<TileProvider> providers = PROVIDERS_BY_LAYER.computeIfAbsent(layer, l -> Collections.emptySet());
-        providers.forEach(provider -> Platform.runLater(() -> provider.unregister(TileContext.getInstance())));
-        PROVIDERS_BY_LAYER.remove(layer);
+        Set<TilePlugin> plugins = PluginRegistry.getInstance().getPlugins(layer);
+        plugins.forEach(tilePlugin -> {
+            try {
+                Platform.runLater(() -> {
+                    tilePlugin.unregister(TileContext.getInstance());
+                    PluginRegistry.getInstance().unregisterPlugin(tilePlugin);
+                });
+            } catch (IllegalStateException iae) {
+                // something series happened, deal with it
+                iae.printStackTrace();
+            }
+        });
+
+        PluginRegistry.getInstance().clearPlugins(layer);
     }
 }

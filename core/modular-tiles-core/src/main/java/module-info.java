@@ -17,7 +17,7 @@
  */
 
 import org.kordamp.tiles.core.TilePluginLifecycleListener;
-import org.kordamp.tiles.model.TileProvider;
+import org.kordamp.tiles.model.TilePlugin;
 import org.moditect.layrry.platform.PluginLifecycleListener;
 
 module org.kordamp.tiles.core {
@@ -30,6 +30,6 @@ module org.kordamp.tiles.core {
     requires javafx.controls;
     requires org.moditect.layrry.platform;
 
-    uses TileProvider;
+    uses TilePlugin;
     provides PluginLifecycleListener with TilePluginLifecycleListener;
 }

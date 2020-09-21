@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-import org.kordamp.tiles.model.TileProvider;
+import org.kordamp.tiles.model.TilePlugin;
 
 module org.kordamp.tiles.app {
     exports org.kordamp.tiles.app;
@@ -27,5 +27,5 @@ module org.kordamp.tiles.app {
     requires javafx.graphics;
     requires javafx.controls;
 
-    uses TileProvider;
+    uses TilePlugin;
 }

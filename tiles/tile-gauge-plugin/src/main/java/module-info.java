@@ -15,24 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-dependencies {
-    api project(':modular-tiles-core')
+
+import org.kordamp.tiles.gauge.GaugeTilePlugin;
+import org.kordamp.tiles.model.TilePlugin;
+
+module org.kordamp.tiles.gauge {
+    exports org.kordamp.tiles.gauge;
+
+    requires org.kordamp.tiles.model;
+    requires eu.hansolo.tilesfx;
+    requires javafx.base;
+    requires javafx.graphics;
+    requires javafx.controls;
+
+    provides TilePlugin with GaugeTilePlugin;
 }
-
-application {
-    mainClassName = 'org.kordamp.tiles.app/org.kordamp.tiles.app.Main'
-}
-
-ext.tilePlugins = [
-    ':tile-clock-plugin',
-    ':tile-gauge-plugin',
-    ':tile-sparkline-plugin'
-]
-
-task copyTiles(type: Copy) {
-    dependsOn tilePlugins.collect { plugin -> project(plugin).distTar }
-    from tilePlugins.collect { plugin -> tarTree(project(plugin).distTar.archiveFile) }
-    into("${project.buildDir}/plugins-prepared")
-}
-
-assemble.dependsOn copyTiles
