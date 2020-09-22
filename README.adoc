@@ -31,7 +31,7 @@ Plugins will be placed under `plugins-prepared` at the root.
 $ ./mvnw -am -pl :modular-tiles-launcher exec:java
 ```
 
-Or run it from the JAR directly
+Or run it directly from the JAR
 
 ```sh
 $ java -jar app/modular-tiles-launcher/target/modular-tiles-launcher-0.0.0-all.jar
@@ -43,6 +43,8 @@ $ java -jar app/modular-tiles-launcher/target/modular-tiles-launcher-0.0.0-all.j
 $ ./gradlew :modular-tiles-launcher:run
 ```
 
+Or run it directly from the JAR
+
 ```sh
 $ java -jar app/modular-tiles-launcher/build/libs/modular-tiles-launcher-0.0.0-all.jar
 ```
@@ -52,3 +54,5 @@ The `plugins` directory is located at the root. Copy plugins from `plugins-prepa
 ```sh
 $ cp -r plugins-prepared/tile-* plugins
 ```
+
+Remove and add plugins from `plugins` at any time to see dynamic behavior.
