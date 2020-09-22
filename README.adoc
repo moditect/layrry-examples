@@ -36,7 +36,7 @@ $ ./mvnw -am -pl :modular-tiles-launcher exec:java
 The `plugins` directory is located at the root of the project. Copy plugins from the launcher
 
 ```sh
-$ cp app/modular-tiles-launcher/target/plugins-prepared/tiles-* plugins
+$ cp -r app/modular-tiles-launcher/target/plugins-prepared/tile-* plugins
 ```
 
 .Gradle
@@ -48,5 +48,5 @@ $ ./gradlew :modular-tiles-launcher:run
 The `plugins` directory is located at `app/modular-tiles-launcher` project. Copy plugins from the launcher
 
 ```sh
-$ cp app/modular-tiles-launcher/build/plugins-prepared/tiles-* app/modular-tiles-launcher/plugins
+$ cp -r app/modular-tiles-launcher/build/plugins-prepared/tile-* app/modular-tiles-launcher/plugins
 ```
