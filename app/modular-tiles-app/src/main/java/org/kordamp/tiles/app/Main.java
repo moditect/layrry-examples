@@ -18,16 +18,13 @@
 package org.kordamp.tiles.app;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.kordamp.tiles.core.View;
+import org.kordamp.tiles.model.PluginRegistry;
 import org.kordamp.tiles.model.TileContext;
-import org.kordamp.tiles.model.TilePlugin;
-
-import java.util.ServiceLoader;
 
 public class Main extends Application {
     private static final int TILE_WIDTH = 150;
@@ -36,7 +33,6 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         View view = new View(TILE_WIDTH, TILE_HEIGHT);
-        loadTiles();
 
         PerspectiveCamera camera = new PerspectiveCamera();
         camera.setFieldOfView(10);
@@ -44,16 +40,13 @@ public class Main extends Application {
         Scene scene = new Scene(new Group(view.getContent()));
         scene.setCamera(camera);
 
+        PluginRegistry.getInstance().initializeDeferredPlugins(TileContext.getInstance());
+
         stage.setTitle("Modular TilesFX");
         stage.setScene(scene);
         stage.setMinWidth((TILE_WIDTH * 3) + 20);
         stage.setMinHeight(TILE_HEIGHT + 30);
         stage.show();
-    }
-
-    private void loadTiles() {
-        ServiceLoader<TilePlugin> services = ServiceLoader.load(Main.class.getModule().getLayer(), TilePlugin.class);
-        services.forEach(tileProvider -> Platform.runLater(() -> tileProvider.register(TileContext.getInstance())));
     }
 
     public static void main(String[] args) {

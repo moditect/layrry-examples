@@ -17,14 +17,13 @@
  */
 package org.kordamp.tiles.core;
 
-import javafx.application.Platform;
+import org.kordamp.tiles.model.PluginRegistry;
 import org.kordamp.tiles.model.TileContext;
 import org.kordamp.tiles.model.TilePlugin;
 import org.moditect.layrry.platform.PluginDescriptor;
 import org.moditect.layrry.platform.PluginLifecycleListener;
 
 import java.util.ServiceLoader;
-import java.util.Set;
 
 public class TilePluginLifecycleListener implements PluginLifecycleListener {
     @Override
@@ -34,14 +33,7 @@ public class TilePluginLifecycleListener implements PluginLifecycleListener {
         ServiceLoader<TilePlugin> plugins = ServiceLoader.load(layer, TilePlugin.class);
         plugins.forEach(tilePlugin -> {
             if (tilePlugin.getClass().getModule().getLayer() == layer) {
-                try {
-                    Platform.runLater(() -> {
-                        tilePlugin.register(TileContext.getInstance());
-                        PluginRegistry.getInstance().registerPlugin(tilePlugin);
-                    });
-                } catch (IllegalStateException ignored) {
-                    // JavaFX Toolkit may not have been initialized if plugin is loaded during boot time
-                }
+                tilePlugin.register(TileContext.getInstance());
             }
         });
     }
@@ -50,19 +42,6 @@ public class TilePluginLifecycleListener implements PluginLifecycleListener {
     public void pluginRemoved(PluginDescriptor plugin) {
         ModuleLayer layer = plugin.getModuleLayer();
 
-        Set<TilePlugin> plugins = PluginRegistry.getInstance().getPlugins(layer);
-        plugins.forEach(tilePlugin -> {
-            try {
-                Platform.runLater(() -> {
-                    tilePlugin.unregister(TileContext.getInstance());
-                    PluginRegistry.getInstance().unregisterPlugin(tilePlugin);
-                });
-            } catch (IllegalStateException iae) {
-                // something series happened, deal with it
-                iae.printStackTrace();
-            }
-        });
-
-        PluginRegistry.getInstance().clearPlugins(layer);
+        PluginRegistry.getInstance().clearPlugins(layer, TileContext.getInstance());
     }
 }

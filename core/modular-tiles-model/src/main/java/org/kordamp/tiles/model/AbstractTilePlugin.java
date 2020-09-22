@@ -18,6 +18,7 @@
 package org.kordamp.tiles.model;
 
 import eu.hansolo.tilesfx.Tile;
+import javafx.application.Platform;
 import javafx.scene.Node;
 
 import java.util.Optional;
@@ -27,22 +28,50 @@ public abstract class AbstractTilePlugin implements TilePlugin {
     private static final String TILE_ID = "TILE_ID";
 
     @Override
-    public void register(TileContext context) {
+    public final void register(TileContext context) {
+        if (context == null) {
+            // JavaFX Toolkit has not been initialized yet -> plugin is loaded during boot time
+            PluginRegistry.getInstance().registerDeferredPlugin(this);
+            return;
+        }
+
         Optional<Node> existingTile = context.getTileContainer().getChildren()
             .stream()
             .filter(this::idMatches)
             .findAny();
 
         if (existingTile.isEmpty()) {
-            Tile tile = createTile(context);
-            tile.getProperties().put(TILE_ID, getTileId());
-            context.getTileContainer().getChildren().add(tile);
+            try {
+                Platform.runLater(() -> {
+                    createAndAddToContainer(context);
+                    PluginRegistry.getInstance().registerPlugin(this);
+                });
+            } catch (IllegalStateException ise) {
+                // plugin failed to initialize
+                // TODO: mark it as failed and handle
+                ise.printStackTrace();
+            }
         }
     }
 
     @Override
-    public void unregister(TileContext context) {
-        context.getTileContainer().getChildren().removeIf(this::idMatches);
+    public final void unregister(TileContext context) {
+        try {
+            Platform.runLater(() -> {
+                context.getTileContainer().getChildren().removeIf(this::idMatches);
+                PluginRegistry.getInstance().unregisterPlugin(this);
+            });
+        } catch (IllegalStateException iae) {
+            // something serious happened, deal with it somehow
+            // FIXME: potential memory leak
+            iae.printStackTrace();
+        }
+    }
+
+    private void createAndAddToContainer(TileContext context) {
+        Tile tile = createTile(context);
+        tile.getProperties().put(TILE_ID, getTileId());
+        context.getTileContainer().getChildren().add(tile);
     }
 
     protected abstract Tile createTile(TileContext context);

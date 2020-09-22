@@ -13,6 +13,7 @@
 *.ipr
 *.iws
 .idea
+out/
 
 # Netbeans
 nb-configuration.xml
@@ -25,3 +26,9 @@ test-output
 .DS_Store
 /**/dependency-reduced-pom.xml
 .vscode/
+tmp/
+
+# Gradle
+.gradle/
+/**/build/
+

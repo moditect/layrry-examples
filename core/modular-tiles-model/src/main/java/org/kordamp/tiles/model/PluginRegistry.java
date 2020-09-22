@@ -15,11 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kordamp.tiles.core;
+package org.kordamp.tiles.model;
 
-import org.kordamp.tiles.model.TilePlugin;
-
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -28,8 +25,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PluginRegistry {
     private static final PluginRegistry INSTANCE = new PluginRegistry();
     private final Map<ModuleLayer, Set<TilePlugin>> plugins = new ConcurrentHashMap<>();
+    private final Set<TilePlugin> deferredPlugins = new LinkedHashSet<>();
 
-    public void registerPlugin(TilePlugin plugin) {
+    void registerDeferredPlugin(TilePlugin plugin) {
+        deferredPlugins.add(plugin);
+    }
+
+    void registerPlugin(TilePlugin plugin) {
         ModuleLayer key = plugin.getClass().getModule().getLayer();
 
         Set<TilePlugin> set = plugins.computeIfAbsent(key, k -> new LinkedHashSet<>());
@@ -37,15 +39,7 @@ public class PluginRegistry {
         set.add(plugin);
     }
 
-    public boolean isPluginRegistered(TilePlugin plugin) {
-        ModuleLayer key = plugin.getClass().getModule().getLayer();
-
-        Set<TilePlugin> set = plugins.computeIfAbsent(key, k -> new LinkedHashSet<>());
-
-        return set.contains(plugin);
-    }
-
-    public void unregisterPlugin(TilePlugin plugin) {
+    void unregisterPlugin(TilePlugin plugin) {
         ModuleLayer key = plugin.getClass().getModule().getLayer();
 
         Set<TilePlugin> set = plugins.computeIfAbsent(key, k -> new LinkedHashSet<>());
@@ -57,12 +51,25 @@ public class PluginRegistry {
         }
     }
 
-    public Set<TilePlugin> getPlugins(ModuleLayer key) {
-        return Collections.unmodifiableSet(plugins.computeIfAbsent(key, k -> new LinkedHashSet<>()));
+    public void clearPlugins(ModuleLayer key, TileContext context) {
+        if (plugins.containsKey(key)) {
+            plugins.get(key).forEach(tilePlugin -> {
+                tilePlugin.unregister(context);
+            });
+            plugins.remove(key);
+        }
     }
 
-    public void clearPlugins(ModuleLayer key) {
-        plugins.remove(key);
+    public void initializeDeferredPlugins(TileContext context) {
+        Set<TilePlugin> toBeInitialized = new LinkedHashSet<>(deferredPlugins);
+        toBeInitialized.forEach(tilePlugin -> {
+            deferredPlugins.remove(tilePlugin);
+            tilePlugin.register(context);
+        });
+
+        // TODO: check if any deferred plugins failed initialization
+        // Must check with an event inside Platform.runLater()
+        // Post results on another thread
     }
 
     public static PluginRegistry getInstance() {
