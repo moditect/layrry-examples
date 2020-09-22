@@ -10,7 +10,7 @@ A sample modular JavaFX application configured with link:https://github.com/modi
 - Maven 3.6.3 or Gradle 6+ (project includes wrappers for each)
 - Layrry 1.0-SNAPSHOT
 
-**NOTE**: Layrry has yet to be published to Maven Central. You have to build your won snapshot for the time being.
+**NOTE**: Layrry has yet to be published to Maven Central. You have to build your own snapshot for the time being.
 JDK 14 is needed to build Layrry.
 
 ```sh
@@ -19,7 +19,7 @@ $ cd layrry
 $ mvn install
 ```
 
-Once Layrry is install, change back to where you cloned this repository.
+Once Layrry is installed, change back to where you cloned this repository.
 
 .Maven
 
