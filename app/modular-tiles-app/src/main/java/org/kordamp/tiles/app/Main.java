@@ -49,6 +49,11 @@ public class Main extends Application {
         stage.show();
     }
 
+    @Override
+    public void stop() throws Exception {
+        TileContext.getInstance().stop();
+    }
+
     public static void main(String[] args) {
         Application.launch(Main.class, args);
     }

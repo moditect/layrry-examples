@@ -23,6 +23,7 @@ import org.kordamp.tiles.model.AbstractTilePlugin;
 import org.kordamp.tiles.model.TileContext;
 
 import java.util.Locale;
+import java.util.Random;
 
 public class ClockTilePlugin extends AbstractTilePlugin {
     @Override
@@ -36,5 +37,10 @@ public class ClockTilePlugin extends AbstractTilePlugin {
             .locale(Locale.US)
             .running(true)
             .build();
+    }
+
+    @Override
+    protected void cleanup() {
+        getTile().setRunning(false);
     }
 }

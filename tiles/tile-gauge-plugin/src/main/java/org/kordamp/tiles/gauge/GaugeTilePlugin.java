@@ -22,6 +22,8 @@ import eu.hansolo.tilesfx.TileBuilder;
 import org.kordamp.tiles.model.AbstractTilePlugin;
 import org.kordamp.tiles.model.TileContext;
 
+import java.util.Random;
+
 public class GaugeTilePlugin extends AbstractTilePlugin {
     @Override
     protected Tile createTile(TileContext context) {
@@ -32,5 +34,10 @@ public class GaugeTilePlugin extends AbstractTilePlugin {
             .unit("V")
             .threshold(75)
             .build();
+    }
+
+    @Override
+    public void handleHeartbeat(long now, Random random) {
+        getTile().setValue(random.nextDouble() * getTile().getRange() * 1.5 + getTile().getMinValue());
     }
 }

@@ -22,10 +22,12 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 
 import java.util.Optional;
+import java.util.Random;
 import java.util.function.Function;
 
-public abstract class AbstractTilePlugin implements TilePlugin {
+public abstract class AbstractTilePlugin implements TilePlugin, TileContext.HeartbeatListener {
     private static final String TILE_ID = "TILE_ID";
+    private Tile tile;
 
     @Override
     public final void register(TileContext context) {
@@ -58,8 +60,10 @@ public abstract class AbstractTilePlugin implements TilePlugin {
     public final void unregister(TileContext context) {
         try {
             Platform.runLater(() -> {
+                context.removeHeartbeatListener(this);
                 context.getTileContainer().getChildren().removeIf(this::idMatches);
                 PluginRegistry.getInstance().unregisterPlugin(this);
+                cleanup();
             });
         } catch (IllegalStateException iae) {
             // something serious happened, deal with it somehow
@@ -68,13 +72,27 @@ public abstract class AbstractTilePlugin implements TilePlugin {
         }
     }
 
+    public final Tile getTile() {
+        return tile;
+    }
+
+    @Override
+    public void handleHeartbeat(long now, Random random) {
+        // left for implementors
+    }
+
     private void createAndAddToContainer(TileContext context) {
-        Tile tile = createTile(context);
+        tile = createTile(context);
         tile.getProperties().put(TILE_ID, getTileId());
         context.getTileContainer().getChildren().add(tile);
+        context.addHeartbeatListener(this);
     }
 
     protected abstract Tile createTile(TileContext context);
+
+    protected void cleanup() {
+        // left for implementors
+    }
 
     protected String getTileId() {
         return getClass().getName();

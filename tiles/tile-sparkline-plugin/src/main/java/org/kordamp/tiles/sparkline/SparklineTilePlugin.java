@@ -23,6 +23,8 @@ import javafx.scene.paint.Stop;
 import org.kordamp.tiles.model.AbstractTilePlugin;
 import org.kordamp.tiles.model.TileContext;
 
+import java.util.Random;
+
 public class SparklineTilePlugin extends AbstractTilePlugin {
     @Override
     protected Tile createTile(TileContext context) {
@@ -36,5 +38,10 @@ public class SparklineTilePlugin extends AbstractTilePlugin {
                 new Stop(1.0, Tile.RED))
             .strokeWithGradient(true)
             .build();
+    }
+
+    @Override
+    public void handleHeartbeat(long now, Random random) {
+        getTile().setValue(random.nextDouble() * getTile().getRange() * 1.5 + getTile().getMinValue());
     }
 }
