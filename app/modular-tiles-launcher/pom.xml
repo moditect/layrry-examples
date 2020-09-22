@@ -48,19 +48,19 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tile-clock-plugin</artifactId>
-            <scope>provider</scope>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tile-gauge-plugin</artifactId>
-            <scope>provider</scope>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tile-sparkline-plugin</artifactId>
-            <scope>provider</scope>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -79,6 +79,9 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
                     <skip>false</skip>
+                    <arguments>
+                        <argument>${session.executionRootDirectory}</argument>
+                    </arguments>
                 </configuration>
             </plugin>
             <plugin>
@@ -99,7 +102,7 @@
                                     <version>${project.version}</version>
                                     <type>tar.gz</type>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/plugins-prepared</outputDirectory>
+                                    <outputDirectory>${session.executionRootDirectory}/plugins-prepared</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -107,7 +110,7 @@
                                     <version>${project.version}</version>
                                     <type>tar.gz</type>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/plugins-prepared</outputDirectory>
+                                    <outputDirectory>${session.executionRootDirectory}/plugins-prepared</outputDirectory>
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>${project.groupId}</groupId>
@@ -115,10 +118,41 @@
                                     <version>${project.version}</version>
                                     <type>tar.gz</type>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/plugins-prepared</outputDirectory>
+                                    <outputDirectory>${session.executionRootDirectory}/plugins-prepared</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <configuration>
+                    <finalName>${project.artifactId}-${project.version}-all</finalName>
+                    <artifactSet>
+                        <excludes>
+                            <exclude>org.openjfx:*</exclude>
+                            <exclude>eu.hansolo:*</exclude>
+                        </excludes>
+                    </artifactSet>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <manifestEntries>
+                                <Main-Class>${exec.mainClass}</Main-Class>
+                            </manifestEntries>
+                        </transformer>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                    </transformers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

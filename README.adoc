@@ -15,15 +15,13 @@ A sample modular JavaFX application configured with link:https://github.com/modi
 $ ./mvnw install
 ```
 
-Plugins will be placed under `app/modular-tiles-launcher/target/plugins-prepared`.
-
 .Gradle
 
 ```sh
 $ ./gradlew assemble publishToMavenLocal
 ```
 
-Plugins will be placed under `app/modular-tiles-launcher/build/plugins-prepared`.
+Plugins will be placed under `plugins-prepared` at the root.
 
 == Run
 
@@ -33,10 +31,10 @@ Plugins will be placed under `app/modular-tiles-launcher/build/plugins-prepared`
 $ ./mvnw -am -pl :modular-tiles-launcher exec:java
 ```
 
-The `plugins` directory is located at the root of the project. Copy plugins from the launcher
+Or run it from the JAR directly
 
 ```sh
-$ cp -r app/modular-tiles-launcher/target/plugins-prepared/tile-* plugins
+$ java -jar app/modular-tiles-launcher/target/modular-tiles-launcher-0.0.0-all.jar
 ```
 
 .Gradle
@@ -45,8 +43,12 @@ $ cp -r app/modular-tiles-launcher/target/plugins-prepared/tile-* plugins
 $ ./gradlew :modular-tiles-launcher:run
 ```
 
-The `plugins` directory is located at `app/modular-tiles-launcher` project. Copy plugins from the launcher
+```sh
+$ java -jar app/modular-tiles-launcher/build/libs/modular-tiles-launcher-0.0.0-all.jar
+```
+
+The `plugins` directory is located at the root. Copy plugins from `plugins-prepared`.
 
 ```sh
-$ cp -r app/modular-tiles-launcher/build/plugins-prepared/tile-* app/modular-tiles-launcher/plugins
+$ cp -r plugins-prepared/tile-* plugins
 ```

@@ -28,6 +28,7 @@ import org.moditect.layrry.internal.LayersFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
@@ -61,8 +62,12 @@ public class Launcher {
         layerConfig.flush();
 
         // 5. Create layers from config
+        Path rootDir = Paths.get(".").toAbsolutePath();
+        if (args != null && args.length > 0) {
+            rootDir = Paths.get(args[0]).toAbsolutePath();
+        }
         LayersConfig config = new TomlLayersConfigParser().parse(new ByteArrayInputStream(layerConfig.toString().getBytes()));
-        Layers layers = new LayersFactory().createLayers(config, Paths.get(".").toAbsolutePath());
+        Layers layers = new LayersFactory().createLayers(config, rootDir);
 
         // 6. Launch application
         layers.run(config.getMain().getModule() + "/" + config.getMain().getClazz());

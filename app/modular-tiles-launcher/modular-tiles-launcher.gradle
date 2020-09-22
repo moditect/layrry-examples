@@ -24,20 +24,22 @@ application {
     mainClassName = 'org.kordamp.tiles.launcher.Launcher'
 }
 
-ext.tilePlugins = [
-    ':tile-clock-plugin',
-    ':tile-gauge-plugin',
-    ':tile-sparkline-plugin'
-]
-
-task copyTiles(type: Copy) {
-    dependsOn tilePlugins.collect { plugin -> project(plugin).distTar }
-    from tilePlugins.collect { plugin -> tarTree(project(plugin).distTar.archiveFile) }
-    into("${project.buildDir}/plugins-prepared")
+shadowJar {
+    mergeServiceFiles()
+    dependencies {
+        exclude(dependency('org.openjfx:.*:.*'))
+    }
 }
 
-assemble.dependsOn copyTiles
-run.dependsOn copyTiles
+assemble.dependsOn(shadowJar)
+
+run {
+    args([rootProject.projectDir.absolutePath])
+}
+
+runShadow {
+    args([rootProject.projectDir.absolutePath])
+}
 
 processResources {
     expand(

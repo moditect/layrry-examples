@@ -22,6 +22,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:6.0.0'
         classpath "org.kordamp.gradle:java-project-gradle-plugin:$kordampPluginVersion"
         classpath "org.kordamp.gradle:settings-gradle-plugin:$kordampPluginVersion"
         classpath "org.kordamp.gradle:enforcer-gradle-plugin:$enforcerPluginVersion"
@@ -38,6 +39,9 @@ projects {
     plugins {
         all {
             id 'idea'
+        }
+        path(':modular-tiles-launcher') {
+            id 'com.github.johnrengelman.shadow'
         }
         path(':') {
             id 'org.kordamp.gradle.java-project'

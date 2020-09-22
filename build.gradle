@@ -151,3 +151,23 @@ projects {
         }
     }
 }
+
+evaluationDependsOnChildren()
+
+ext.tilePlugins = [
+    ':tile-clock-plugin',
+    ':tile-gauge-plugin',
+    ':tile-sparkline-plugin'
+]
+
+task cleanPluginsPrepared(type: Delete) {
+    delete project.layout.projectDirectory.dir('plugins-prepared')
+}
+clean.dependsOn(cleanPluginsPrepared)
+
+task copyPluginsPrepared(type: Copy) {
+    dependsOn tilePlugins.collect { plugin -> project(plugin).distTar }
+    from tilePlugins.collect { plugin -> tarTree(project(plugin).distTar.archiveFile) }
+    into(project.layout.projectDirectory.dir('plugins-prepared'))
+}
+assemble.dependsOn(copyPluginsPrepared)
