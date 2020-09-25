@@ -152,8 +152,6 @@ projects {
     }
 }
 
-evaluationDependsOnChildren()
-
 ext.tilePlugins = [
     ':tile-clock-plugin',
     ':tile-gauge-plugin',
