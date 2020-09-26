@@ -27,12 +27,10 @@
     modules = [
         "org.kordamp.tiles:modular-tiles-model:0.0.0",
         "org.kordamp.tiles:modular-tiles-core:0.0.0",
+        "org.kordamp.tiles:modular-tiles-app:0.0.0",
         "org.moditect.layrry:layrry-platform:1.0-SNAPSHOT",
         "eu.hansolo:tilesfx:11.44"]
     parents = ["javafx"]
-[layers.app]
-    parents = ["core"]
-    modules = [ "org.kordamp.tiles:modular-tiles-app:0.0.0"]
 [layers.plugins]
     parents = ["core"]
     directory = "plugins"
