@@ -9,6 +9,7 @@ A sample modular JavaFX application configured with link:https://github.com/modi
 - JDK 11
 - Maven 3.6.3 or Gradle 6+ (project includes wrappers for each)
 - Layrry 1.0-SNAPSHOT
+- link:https://github.com/jbangdev/jbang[jbang] (optional)
 
 **NOTE**: Layrry has yet to be published to Maven Central. You have to build your own snapshot for the time being.
 JDK 14 is needed to build Layrry.
@@ -61,21 +62,17 @@ Or run it directly from the JAR
 $ java -jar app/modular-tiles-launcher/build/libs/modular-tiles-launcher-0.0.0-all.jar
 ```
 
-The `plugins` directory is located at the root. Copy plugins from `plugins-prepared`.
-
-```sh
-$ cp -r plugins-prepared/tile-* plugins
-```
-
 .jbang
-
-Please note that the supplied layers config files are setup to run on OSX.
-Edit these files if you intend to run on Windows or Linux, by replacing all references
-of "mac" for "windows" or "linux" as appropriate.
 
 ```sh
 $ jbang layrry@moditect --layers-config layers.yml
 $ jbang layrry@moditect --layers-config layers.toml
+```
+
+The `plugins` directory is located at the root. Copy plugins from `plugins-prepared`.
+
+```sh
+$ cp -r plugins-prepared/tile-* plugins
 ```
 
 Remove and add plugins from `plugins` at any time to see dynamic behavior.

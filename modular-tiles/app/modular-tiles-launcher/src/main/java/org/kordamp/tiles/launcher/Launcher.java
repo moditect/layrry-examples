@@ -40,7 +40,7 @@ public class Launcher {
         // 2. Map OS to JavaFX classifier
         String classifier = "";
         if (osName.contains("windows")) {
-            classifier = "windows";
+            classifier = "win";
         } else if (osName.contains("mac")) {
             classifier = "mac";
         } else if (osName.contains("linux")) {
