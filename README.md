@@ -2,15 +2,13 @@
 
 Examples that show how to build layered Java apps using Layrry and JPMS.
 
-## Build
+## Contents
 
-Build the examples like so:
+The following examples exist:
 
-```
-mvn install
-```
+* _modular-tiles_: shows how to add and remove UI widgets to/from a JavaFX based application using Layrry
 
-Java 11 or later is needed in order to do so.
+Please see the _README.md_ files in the specific sub-directories for instructions on building the individual examples.
 
 ## Contributing
 
