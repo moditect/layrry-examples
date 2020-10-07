@@ -25,12 +25,14 @@ buildscript {
         classpath 'com.github.jengelman.gradle.plugins:shadow:6.0.0'
         classpath "org.kordamp.gradle:java-project-gradle-plugin:$kordampPluginVersion"
         classpath "org.kordamp.gradle:settings-gradle-plugin:$kordampPluginVersion"
+        classpath "org.kordamp.gradle:insight-gradle-plugin:$kordampPluginVersion"
         classpath "org.kordamp.gradle:enforcer-gradle-plugin:$enforcerPluginVersion"
         classpath "org.javamodularity:moduleplugin:$modularityPluginVersion"
         classpath "org.openjfx:javafx-plugin:$openjfxPluginVersion"
     }
 }
 apply plugin: 'org.kordamp.gradle.settings'
+apply plugin: 'org.kordamp.gradle.insight'
 apply plugin: 'org.kordamp.gradle.enforcer'
 
 rootProject.name = 'modular-tiles'
