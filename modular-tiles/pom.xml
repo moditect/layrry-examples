@@ -34,7 +34,7 @@
         <javafx_version>11.0.2</javafx_version>
         <javafx.plugin.version>0.0.4</javafx.plugin.version>
         <layrry_version>1.0-SNAPSHOT</layrry_version>
-        <tiles_version>${project.version}</tiles_version>
+        <project_version>${project.version}</project_version>
         <tilesfx_version>11.44</tilesfx_version>
         <javafx.skip>true</javafx.skip>
         <javafx.mainClass>org.kordamp.tiles.app/org.kordamp.tiles.app.Main</javafx.mainClass>
@@ -47,7 +47,7 @@
         <module>core/modular-tiles-core</module>
         <module>tiles</module>
         <module>app/modular-tiles-app</module>
-        <module>app/modular-tiles-launcher</module>
+        <!--module>app/modular-tiles-launcher</module-->
     </modules>
 
     <dependencyManagement>
@@ -135,6 +135,11 @@
             <plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.1.0</version>
                 </plugin>
@@ -202,10 +207,32 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>${session.executionRootDirectory}/plugins-prepared</directory>
+                            <directory>${session.executionRootDirectory}/staging</directory>
                         </fileset>
                     </filesets>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${session.executionRootDirectory}/staging/</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/layers</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

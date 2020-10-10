@@ -57,7 +57,7 @@
                                     <version>${project.version}</version>
                                     <type>tar.gz</type>
                                     <overWrite>false</overWrite>
-                                    <outputDirectory>${session.executionRootDirectory}/plugins-prepared</outputDirectory>
+                                    <outputDirectory>${session.executionRootDirectory}/staging/plugins-prepared</outputDirectory>
                                 </artifactItem>
                             </artifactItems>
                         </configuration>

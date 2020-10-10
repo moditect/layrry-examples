@@ -12,7 +12,7 @@ A sample modular JavaFX application configured with link:https://github.com/modi
 - link:https://github.com/jbangdev/jbang[jbang] (optional)
 
 **NOTE**: Layrry has yet to be published to Maven Central. You have to build your own snapshot for the time being.
-JDK 14 is needed to build Layrry.
+JDK 15 is needed to build Layrry.
 
 ```sh
 $ git clone https://github.com/moditect/layrry.git
@@ -34,45 +34,26 @@ $ ./mvnw install
 $ ./gradlew assemble publishToMavenLocal
 ```
 
-Plugins will be placed under `plugins-prepared` at the root.
+Plugins will be placed under `staging/plugins-prepared` at the root.
 
 == Run
 
-.Maven
+Run it directly from the layrry-launcher JAR (assuming Layrry repo was cloned adjacent to this repo)
 
 ```sh
-$ ./mvnw -am -pl :modular-tiles-launcher exec:java
-```
-
-Or run it directly from the JAR
-
-```sh
-$ java -jar app/modular-tiles-launcher/target/modular-tiles-launcher-0.0.0-all.jar
-```
-
-.Gradle
-
-```sh
-$ ./gradlew :modular-tiles-launcher:run
-```
-
-Or run it directly from the JAR
-
-```sh
-$ java -jar app/modular-tiles-launcher/build/libs/modular-tiles-launcher-0.0.0-all.jar
+$ java -jar ../../layrry/layrry-launcher/target/layrry-launcher-1.0-SNAPSHOT.jar --layers-config staging/layers.toml
 ```
 
 .jbang
 
 ```sh
-$ jbang layrry@moditect --layers-config layers.yml
-$ jbang layrry@moditect --layers-config layers.toml
+$ jbang layrry@moditect --layers-config staging/layers.toml
 ```
 
-The `plugins` directory is located at the root. Copy plugins from `plugins-prepared`.
+The `plugins` directory is located at `staging`. Copy plugins from `staging/plugins-prepared`.
 
 ```sh
-$ cp -r plugins-prepared/tile-* plugins
+$ cp -r staging/plugins-prepared/tile-* staging/plugins
 ```
 
-Remove and add plugins from `plugins` at any time to see dynamic behavior.
+Remove and add plugins from `staging/plugins` at any time to see dynamic behavior.

@@ -152,20 +152,35 @@ projects {
     }
 }
 
+tasks.register('processResources', org.gradle.language.jvm.tasks.ProcessResources) {
+    from project.layout.projectDirectory.dir('src/layers').asFile
+    destinationDir = project.layout.projectDirectory.dir('staging').asFile
+    expand(
+        'project_version': version,
+        'javafx_version': javafxVersion,
+        'tilesfx_version': tilesfxVersion,
+        'layrry_version': layrryVersion
+    )
+}
+assemble.dependsOn(processResources)
+
 ext.tilePlugins = [
     ':tile-clock-plugin',
     ':tile-gauge-plugin',
     ':tile-sparkline-plugin'
 ]
 
-task cleanPluginsPrepared(type: Delete) {
-    delete project.layout.projectDirectory.dir('plugins-prepared')
+task cleanStaging(type: Delete) {
+    delete project.layout.projectDirectory.dir('staging')
 }
-clean.dependsOn(cleanPluginsPrepared)
+clean.dependsOn(cleanStaging)
 
 task copyPluginsPrepared(type: Copy) {
     dependsOn tilePlugins.collect { plugin -> project(plugin).distTar }
     from tilePlugins.collect { plugin -> tarTree(project(plugin).distTar.archiveFile) }
-    into(project.layout.projectDirectory.dir('plugins-prepared'))
+    into(project.layout.projectDirectory.dir('staging/plugins-prepared'))
+    doLast {
+        project.layout.projectDirectory.dir('staging/plugins').asFile.mkdirs()
+    }
 }
 assemble.dependsOn(copyPluginsPrepared)
