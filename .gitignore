@@ -21,6 +21,7 @@ nb-configuration.xml
 # Build
 /**/target/
 test-output
+/**/bin/
 
 # Misc.
 .DS_Store
