@@ -2,6 +2,8 @@
 
 A sample modular JavaFX application configured with link:https://github.com/moditect/layrry/[Layrry].
 
+![Modular JavaFX tiles based on Layrry](javafx-layrry.gif)
+
 == Build
 
 .Prerequisites
