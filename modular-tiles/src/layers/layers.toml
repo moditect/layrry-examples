@@ -18,18 +18,18 @@
 
 [layers.javafx]
     modules = [
-        "org.openjfx:javafx-base:jar:{{javafx.os.classifier}}:${javafx_version}",
-        "org.openjfx:javafx-controls:jar:{{javafx.os.classifier}}:${javafx_version}",
-        "org.openjfx:javafx-graphics:jar:{{javafx.os.classifier}}:${javafx_version}",
-        "org.openjfx:javafx-web:jar:{{javafx.os.classifier}}:${javafx_version}",
-        "org.openjfx:javafx-media:jar:{{javafx.os.classifier}}:${javafx_version}"]
+        "org.openjfx:javafx-base:jar:{{javafx.os.classifier}}:{{javafx_version}}",
+        "org.openjfx:javafx-controls:jar:{{javafx.os.classifier}}:{{javafx_version}}",
+        "org.openjfx:javafx-graphics:jar:{{javafx.os.classifier}}:{{javafx_version}}",
+        "org.openjfx:javafx-web:jar:{{javafx.os.classifier}}:{{javafx_version}}",
+        "org.openjfx:javafx-media:jar:{{javafx.os.classifier}}:{{javafx_version}}"]
 [layers.core]
     modules = [
-        "org.kordamp.tiles:modular-tiles-model:${project_version}",
-        "org.kordamp.tiles:modular-tiles-core:${project_version}",
-        "org.kordamp.tiles:modular-tiles-app:${project_version}",
-        "org.moditect.layrry:layrry-platform:${layrry_version}",
-        "eu.hansolo:tilesfx:${tilesfx_version}"]
+        "org.kordamp.tiles:modular-tiles-model:{{project_version}}",
+        "org.kordamp.tiles:modular-tiles-core:{{project_version}}",
+        "org.kordamp.tiles:modular-tiles-app:{{project_version}}",
+        "org.moditect.layrry:layrry-platform:{{layrry_version}}",
+        "eu.hansolo:tilesfx:{{tilesfx_version}}"]
     parents = ["javafx"]
 [layers.plugins]
     parents = ["core"]

@@ -41,13 +41,13 @@ Plugins will be placed under `staging/plugins-prepared` at the root.
 Run it directly from the layrry-launcher JAR (assuming Layrry repo was cloned adjacent to this repo)
 
 ```sh
-$ java -jar ../../layrry/layrry-launcher/target/layrry-launcher-1.0-SNAPSHOT.jar --layers-config staging/layers.toml
+$ java -jar ../../layrry/layrry-launcher/target/layrry-launcher-1.0-SNAPSHOT.jar --layers-config staging/layers.toml --properties staging/versions.properties
 ```
 
 .jbang
 
 ```sh
-$ jbang layrry@moditect --layers-config staging/layers.toml
+$ jbang layrry@moditect --layers-config staging/layers.toml --properties staging/versions.properties
 ```
 
 The `plugins` directory is located at `staging`. Copy plugins from `staging/plugins-prepared`.
