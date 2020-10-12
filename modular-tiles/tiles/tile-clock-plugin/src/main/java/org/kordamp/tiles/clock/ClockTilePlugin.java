@@ -38,9 +38,4 @@ public class ClockTilePlugin extends AbstractTilePlugin {
             .running(true)
             .build();
     }
-
-    @Override
-    protected void cleanup() {
-        getTile().setRunning(false);
-    }
 }

@@ -86,12 +86,14 @@ public abstract class AbstractTilePlugin implements TilePlugin, TileContext.Hear
         tile.getProperties().put(TILE_ID, getTileId());
         context.getTileContainer().getChildren().add(tile);
         context.addHeartbeatListener(this);
+        tile.setRunning(true);
     }
 
     protected abstract Tile createTile(TileContext context);
 
     protected void cleanup() {
-        // left for implementors
+        tile.setRunning(false);
+        tile.stop();
     }
 
     protected String getTileId() {
