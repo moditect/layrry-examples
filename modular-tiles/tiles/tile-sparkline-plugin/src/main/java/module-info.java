@@ -22,8 +22,8 @@ import org.kordamp.tiles.sparkline.SparklineTilePlugin;
 module org.kordamp.tiles.sparkline {
     exports org.kordamp.tiles.sparkline;
 
-    requires org.kordamp.tiles.model;
-    requires eu.hansolo.tilesfx;
+    requires transitive org.kordamp.tiles.model;
+    requires transitive eu.hansolo.tilesfx;
     requires javafx.base;
     requires javafx.graphics;
     requires javafx.controls;

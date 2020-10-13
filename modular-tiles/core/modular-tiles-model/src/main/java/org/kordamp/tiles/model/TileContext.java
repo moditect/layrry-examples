@@ -81,7 +81,7 @@ public class TileContext {
         return instance;
     }
 
-    interface HeartbeatListener {
+    public interface HeartbeatListener {
         void handleHeartbeat(long now, Random random);
     }
 

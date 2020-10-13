@@ -24,7 +24,7 @@ module org.kordamp.tiles.app {
     requires org.kordamp.tiles.core;
     requires org.kordamp.tiles.model;
     requires javafx.base;
-    requires javafx.graphics;
+    requires transitive javafx.graphics;
     requires javafx.controls;
 
     uses TilePlugin;

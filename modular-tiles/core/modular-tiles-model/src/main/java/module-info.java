@@ -18,5 +18,5 @@
 module org.kordamp.tiles.model {
     exports org.kordamp.tiles.model;
 
-    requires eu.hansolo.tilesfx;
+    requires transitive eu.hansolo.tilesfx;
 }
