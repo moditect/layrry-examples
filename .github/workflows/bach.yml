@@ -1,0 +1,21 @@
+name: 'Build with Bach'
+on: push
+jobs:
+  build:
+    name: "Build (JDK-${{ matrix.java }}, ${{ matrix.os }})"
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ] # [ macOS-latest, windows-latest ]
+        java: [ 15 ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@v2
+      - name: 'Set up JDK'
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: 'Build project with Bach'
+        working-directory: modular-tiles
+        run: jshell https://sormuras.de/bach@11.9/build
