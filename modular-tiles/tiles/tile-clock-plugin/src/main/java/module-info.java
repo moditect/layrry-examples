@@ -22,8 +22,8 @@ import org.kordamp.tiles.model.TilePlugin;
 module org.kordamp.tiles.clock {
     exports org.kordamp.tiles.clock;
 
-    requires org.kordamp.tiles.model;
-    requires eu.hansolo.tilesfx;
+    requires transitive org.kordamp.tiles.model;
+    requires transitive eu.hansolo.tilesfx;
     requires javafx.base;
     requires javafx.graphics;
     requires javafx.controls;

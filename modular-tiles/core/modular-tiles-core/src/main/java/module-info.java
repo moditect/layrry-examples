@@ -27,8 +27,8 @@ module org.kordamp.tiles.core {
     requires eu.hansolo.tilesfx;
     requires javafx.base;
     requires javafx.graphics;
-    requires javafx.controls;
-    requires org.moditect.layrry.platform;
+    requires transitive javafx.controls;
+    requires transitive org.moditect.layrry.platform;
 
     uses TilePlugin;
     provides PluginLifecycleListener with TilePluginLifecycleListener;
