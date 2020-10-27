@@ -204,6 +204,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
+                <inherited>false</inherited>
                 <configuration>
                     <filesets>
                         <fileset>
@@ -215,6 +216,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
+                <inherited>false</inherited>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
