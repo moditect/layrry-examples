@@ -7,7 +7,7 @@ Examples that show how to build layered Java apps using Layrry and JPMS.
 The following examples exist:
 
 * _modular-tiles_: shows how to add and remove UI widgets to/from a JavaFX based application using Layrry
-* _vertxlinks_: shows how to dynamically add and remove routes to a Vert.x application
+* _vertx-links_: shows how to dynamically add and remove routes to a Vert.x application
 
 Please see the _README_ files in the specific sub-directories for instructions on building the individual examples.
 
