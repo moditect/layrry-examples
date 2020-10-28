@@ -18,6 +18,7 @@
 package org.kordamp.tiles.model;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -25,13 +26,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class PluginRegistry {
     private static final PluginRegistry INSTANCE = new PluginRegistry();
-    private final Map<ModuleLayer, Set<TilePlugin>> plugins = new ConcurrentHashMap<>();
+    private final Map<ModuleLayer, Map<String, TilePlugin>> plugins = new ConcurrentHashMap<>();
     private final Set<TilePlugin> deferredPlugins = new LinkedHashSet<>();
 
     public void registerPlugins(ModuleLayer key, Collection<TilePlugin> plugins) {
         TileContext context = TileContext.getInstance();
 
-        Set<TilePlugin> pluginSet = this.plugins.computeIfAbsent(key, k -> new LinkedHashSet<>());
+        Map<String, TilePlugin> pluginMap = this.plugins.computeIfAbsent(key, k -> new LinkedHashMap<>());
 
         plugins.forEach(tilePlugin -> {
             if (context == null) {
@@ -40,10 +41,7 @@ public class PluginRegistry {
                 return;
             }
 
-            if (pluginSet
-                .stream()
-                .filter(candidate -> candidate.getId().equals(tilePlugin.getId()))
-                .findAny().isEmpty()) {
+            if (!pluginMap.containsKey(tilePlugin.getId())) {
                 handlePluginRegistration(tilePlugin, context);
             }
         });
@@ -53,15 +51,17 @@ public class PluginRegistry {
         TileContext context = TileContext.getInstance();
 
         if (plugins.containsKey(key)) {
-            plugins.get(key).forEach(tilePlugin -> tilePlugin.unregister(context)
+            plugins.get(key).values().forEach(tilePlugin -> tilePlugin.unregister(context)
                 .thenAccept(this::untrackPlugin));
             plugins.remove(key);
         }
     }
 
-    public void initializeDeferredPlugins(TileContext context) {
-        Set<TilePlugin> toBeInitialized = new LinkedHashSet<>(deferredPlugins);
-        toBeInitialized.forEach(tilePlugin -> {
+    public void initializeDeferredPlugins() {
+        TileContext context = TileContext.getInstance();
+
+        // defensive copying to allow removal on the spot
+        new LinkedHashSet<>(deferredPlugins).forEach(tilePlugin -> {
             deferredPlugins.remove(tilePlugin);
             handlePluginRegistration(tilePlugin, context);
         });
@@ -74,15 +74,15 @@ public class PluginRegistry {
     void trackPlugin(TilePlugin plugin) {
         ModuleLayer key = plugin.getClass().getModule().getLayer();
 
-        plugins.computeIfAbsent(key, k -> new LinkedHashSet<>())
-            .add(plugin);
+        plugins.computeIfAbsent(key, k -> new LinkedHashMap<>())
+            .put(plugin.getId(), plugin);
     }
 
     void untrackPlugin(TilePlugin plugin) {
         ModuleLayer key = plugin.getClass().getModule().getLayer();
 
-        plugins.computeIfAbsent(key, k -> new LinkedHashSet<>())
-            .remove(plugin);
+        plugins.computeIfAbsent(key, k -> new LinkedHashMap<>())
+            .remove(plugin.getId());
     }
 
     void handlePluginRegistration(TilePlugin tilePlugin, TileContext context) {

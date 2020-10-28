@@ -40,7 +40,7 @@ public class Main extends Application {
         Scene scene = new Scene(new Group(view.getContent()));
         scene.setCamera(camera);
 
-        PluginRegistry.getInstance().initializeDeferredPlugins(TileContext.getInstance());
+        PluginRegistry.getInstance().initializeDeferredPlugins();
 
         stage.setTitle("Modular TilesFX");
         stage.setScene(scene);
