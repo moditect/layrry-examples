@@ -32,8 +32,10 @@ public class TilePluginLifecycleListener implements PluginLifecycleListener {
     public void pluginAdded(PluginDescriptor plugin) {
         ModuleLayer layer = plugin.getModuleLayer();
 
+        // Load all plugins
         ServiceLoader<TilePlugin> loader = ServiceLoader.load(layer, TilePlugin.class);
 
+        // collect and filter plugins by _this_ layer
         Collection<TilePlugin> plugins = new LinkedHashSet<>();
         loader.forEach(tilePlugin -> {
             if (tilePlugin.getClass().getModule().getLayer() == layer) {
@@ -41,12 +43,14 @@ public class TilePluginLifecycleListener implements PluginLifecycleListener {
             }
         });
 
+        // register plugins of _this_ layer
         PluginRegistry.getInstance()
             .registerPlugins(layer, plugins);
     }
 
     @Override
     public void pluginRemoved(PluginDescriptor plugin) {
+        // unregister plugins of _this_ layer
         PluginRegistry.getInstance()
             .unregisterPlugins(plugin.getModuleLayer());
     }

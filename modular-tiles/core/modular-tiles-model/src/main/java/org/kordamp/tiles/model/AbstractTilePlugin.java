@@ -58,9 +58,7 @@ public abstract class AbstractTilePlugin implements TilePlugin, TileContext.Hear
         try {
             Platform.runLater(() -> {
                 try {
-                    context.removeHeartbeatListener(this);
-                    context.getTileContainer().getChildren().removeIf(this::idMatches);
-                    cleanup();
+                    removeFromContainer(context);
                     promise.complete(this);
                 } catch (Throwable t) {
                     promise.completeExceptionally(t);
@@ -96,12 +94,14 @@ public abstract class AbstractTilePlugin implements TilePlugin, TileContext.Hear
         tile.setRunning(true);
     }
 
-    protected abstract Tile createTile(TileContext context);
-
-    protected void cleanup() {
+    private void removeFromContainer(TileContext context) {
+        context.removeHeartbeatListener(this);
+        context.getTileContainer().getChildren().removeIf(this::idMatches);
         tile.setRunning(false);
         tile.stop();
     }
+
+    protected abstract Tile createTile(TileContext context);
 
     private boolean idMatches(final Node node) {
         return idMatcher(getId()).apply(node);

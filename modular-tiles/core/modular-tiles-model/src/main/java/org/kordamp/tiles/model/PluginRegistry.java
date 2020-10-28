@@ -67,25 +67,25 @@ public class PluginRegistry {
         });
     }
 
-    void registerDeferredPlugin(TilePlugin plugin) {
+    private void registerDeferredPlugin(TilePlugin plugin) {
         deferredPlugins.add(plugin);
     }
 
-    void trackPlugin(TilePlugin plugin) {
+    private void trackPlugin(TilePlugin plugin) {
         ModuleLayer key = plugin.getClass().getModule().getLayer();
 
         plugins.computeIfAbsent(key, k -> new LinkedHashMap<>())
             .put(plugin.getId(), plugin);
     }
 
-    void untrackPlugin(TilePlugin plugin) {
+    private void untrackPlugin(TilePlugin plugin) {
         ModuleLayer key = plugin.getClass().getModule().getLayer();
 
         plugins.computeIfAbsent(key, k -> new LinkedHashMap<>())
             .remove(plugin.getId());
     }
 
-    void handlePluginRegistration(TilePlugin tilePlugin, TileContext context) {
+    private void handlePluginRegistration(TilePlugin tilePlugin, TileContext context) {
         tilePlugin.register(context)
             .thenAccept(this::trackPlugin)
             .exceptionally(throwable -> {
