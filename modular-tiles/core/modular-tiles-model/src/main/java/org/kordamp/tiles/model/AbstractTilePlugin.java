@@ -21,8 +21,9 @@ import eu.hansolo.tilesfx.Tile;
 import javafx.application.Platform;
 import javafx.scene.Node;
 
-import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.function.Function;
 
 public abstract class AbstractTilePlugin implements TilePlugin, TileContext.HeartbeatListener {
@@ -30,46 +31,52 @@ public abstract class AbstractTilePlugin implements TilePlugin, TileContext.Hear
     private Tile tile;
 
     @Override
-    public final void register(TileContext context) {
-        if (context == null) {
-            // JavaFX Toolkit has not been initialized yet -> plugin is loaded during boot time
-            PluginRegistry.getInstance().registerDeferredPlugin(this);
-            return;
-        }
+    public final CompletionStage<TilePlugin> register(TileContext context) {
+        final CompletableFuture<TilePlugin> promise = new CompletableFuture<>();
 
-        Optional<Node> existingTile = context.getTileContainer().getChildren()
-            .stream()
-            .filter(this::idMatches)
-            .findAny();
-
-        if (existingTile.isEmpty()) {
-            try {
-                Platform.runLater(() -> {
+        try {
+            Platform.runLater(() -> {
+                try {
                     createAndAddToContainer(context);
-                    PluginRegistry.getInstance().registerPlugin(this);
-                });
-            } catch (IllegalStateException ise) {
-                // plugin failed to initialize
-                // TODO: mark it as failed and handle
-                ise.printStackTrace();
-            }
+                    promise.complete(this);
+                } catch (Throwable t) {
+                    promise.completeExceptionally(t);
+                }
+            });
+        } catch (IllegalStateException ise) {
+            // plugin failed to initialize
+            promise.completeExceptionally(ise);
         }
+
+        return promise;
     }
 
     @Override
-    public final void unregister(TileContext context) {
+    public final CompletionStage<TilePlugin> unregister(TileContext context) {
+        final CompletableFuture<TilePlugin> promise = new CompletableFuture<>();
+
         try {
             Platform.runLater(() -> {
-                context.removeHeartbeatListener(this);
-                context.getTileContainer().getChildren().removeIf(this::idMatches);
-                PluginRegistry.getInstance().unregisterPlugin(this);
-                cleanup();
+                try {
+                    context.removeHeartbeatListener(this);
+                    context.getTileContainer().getChildren().removeIf(this::idMatches);
+                    cleanup();
+                    promise.complete(this);
+                } catch (Throwable t) {
+                    promise.completeExceptionally(t);
+                }
             });
         } catch (IllegalStateException iae) {
-            // something serious happened, deal with it somehow
-            // FIXME: potential memory leak
-            iae.printStackTrace();
+            // plugin failed to initialize
+            promise.completeExceptionally(iae);
         }
+
+        return promise;
+    }
+
+    @Override
+    public String getId() {
+        return getClass().getName();
     }
 
     public final Tile getTile() {
@@ -83,7 +90,7 @@ public abstract class AbstractTilePlugin implements TilePlugin, TileContext.Hear
 
     private void createAndAddToContainer(TileContext context) {
         tile = createTile(context);
-        tile.getProperties().put(TILE_ID, getTileId());
+        tile.getProperties().put(TILE_ID, getId());
         context.getTileContainer().getChildren().add(tile);
         context.addHeartbeatListener(this);
         tile.setRunning(true);
@@ -96,12 +103,8 @@ public abstract class AbstractTilePlugin implements TilePlugin, TileContext.Hear
         tile.stop();
     }
 
-    protected String getTileId() {
-        return getClass().getName();
-    }
-
     private boolean idMatches(final Node node) {
-        return idMatcher(getTileId()).apply(node);
+        return idMatcher(getId()).apply(node);
     }
 
     private Function<Node, Boolean> idMatcher(final String id) {

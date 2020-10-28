@@ -17,8 +17,12 @@
  */
 package org.kordamp.tiles.model;
 
-public interface TilePlugin {
-    void register(TileContext context);
+import java.util.concurrent.CompletionStage;
 
-    void unregister(TileContext context);
+public interface TilePlugin {
+    String getId();
+
+    CompletionStage<TilePlugin> register(TileContext context);
+
+    CompletionStage<TilePlugin> unregister(TileContext context);
 }

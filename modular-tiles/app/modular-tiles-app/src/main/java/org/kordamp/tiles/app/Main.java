@@ -31,7 +31,7 @@ public class Main extends Application {
     private static final int TILE_HEIGHT = 150;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         View view = new View(TILE_WIDTH, TILE_HEIGHT);
 
         PerspectiveCamera camera = new PerspectiveCamera();
@@ -50,7 +50,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void stop() throws Exception {
+    public void stop() {
         TileContext.getInstance().stop();
         System.exit(0);
     }

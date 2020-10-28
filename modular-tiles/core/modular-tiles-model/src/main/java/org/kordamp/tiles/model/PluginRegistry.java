@@ -17,6 +17,7 @@
  */
 package org.kordamp.tiles.model;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -27,35 +28,33 @@ public class PluginRegistry {
     private final Map<ModuleLayer, Set<TilePlugin>> plugins = new ConcurrentHashMap<>();
     private final Set<TilePlugin> deferredPlugins = new LinkedHashSet<>();
 
-    void registerDeferredPlugin(TilePlugin plugin) {
-        deferredPlugins.add(plugin);
+    public void registerPlugins(ModuleLayer key, Collection<TilePlugin> plugins) {
+        TileContext context = TileContext.getInstance();
+
+        Set<TilePlugin> pluginSet = this.plugins.computeIfAbsent(key, k -> new LinkedHashSet<>());
+
+        plugins.forEach(tilePlugin -> {
+            if (context == null) {
+                // JavaFX Toolkit has not been initialized yet -> tilePlugin is loaded during boot time
+                registerDeferredPlugin(tilePlugin);
+                return;
+            }
+
+            if (pluginSet
+                .stream()
+                .filter(candidate -> candidate.getId().equals(tilePlugin.getId()))
+                .findAny().isEmpty()) {
+                handlePluginRegistration(tilePlugin, context);
+            }
+        });
     }
 
-    void registerPlugin(TilePlugin plugin) {
-        ModuleLayer key = plugin.getClass().getModule().getLayer();
+    public void unregisterPlugins(ModuleLayer key) {
+        TileContext context = TileContext.getInstance();
 
-        Set<TilePlugin> set = plugins.computeIfAbsent(key, k -> new LinkedHashSet<>());
-
-        set.add(plugin);
-    }
-
-    void unregisterPlugin(TilePlugin plugin) {
-        ModuleLayer key = plugin.getClass().getModule().getLayer();
-
-        Set<TilePlugin> set = plugins.computeIfAbsent(key, k -> new LinkedHashSet<>());
-
-        set.remove(plugin);
-
-        if (set.isEmpty()) {
-            plugins.remove(key);
-        }
-    }
-
-    public void clearPlugins(ModuleLayer key, TileContext context) {
         if (plugins.containsKey(key)) {
-            plugins.get(key).forEach(tilePlugin -> {
-                tilePlugin.unregister(context);
-            });
+            plugins.get(key).forEach(tilePlugin -> tilePlugin.unregister(context)
+                .thenAccept(this::untrackPlugin));
             plugins.remove(key);
         }
     }
@@ -64,12 +63,36 @@ public class PluginRegistry {
         Set<TilePlugin> toBeInitialized = new LinkedHashSet<>(deferredPlugins);
         toBeInitialized.forEach(tilePlugin -> {
             deferredPlugins.remove(tilePlugin);
-            tilePlugin.register(context);
+            handlePluginRegistration(tilePlugin, context);
         });
+    }
 
-        // TODO: check if any deferred plugins failed initialization
-        // Must check with an event inside Platform.runLater()
-        // Post results on another thread
+    void registerDeferredPlugin(TilePlugin plugin) {
+        deferredPlugins.add(plugin);
+    }
+
+    void trackPlugin(TilePlugin plugin) {
+        ModuleLayer key = plugin.getClass().getModule().getLayer();
+
+        plugins.computeIfAbsent(key, k -> new LinkedHashSet<>())
+            .add(plugin);
+    }
+
+    void untrackPlugin(TilePlugin plugin) {
+        ModuleLayer key = plugin.getClass().getModule().getLayer();
+
+        plugins.computeIfAbsent(key, k -> new LinkedHashSet<>())
+            .remove(plugin);
+    }
+
+    void handlePluginRegistration(TilePlugin tilePlugin, TileContext context) {
+        tilePlugin.register(context)
+            .thenAccept(this::trackPlugin)
+            .exceptionally(throwable -> {
+                // TODO: something went terribly wrong
+                throwable.printStackTrace();
+                return null;
+            });
     }
 
     public static PluginRegistry getInstance() {

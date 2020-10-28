@@ -23,6 +23,8 @@ import org.kordamp.tiles.model.TilePlugin;
 import org.moditect.layrry.platform.PluginDescriptor;
 import org.moditect.layrry.platform.PluginLifecycleListener;
 
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.ServiceLoader;
 
 public class TilePluginLifecycleListener implements PluginLifecycleListener {
@@ -30,18 +32,22 @@ public class TilePluginLifecycleListener implements PluginLifecycleListener {
     public void pluginAdded(PluginDescriptor plugin) {
         ModuleLayer layer = plugin.getModuleLayer();
 
-        ServiceLoader<TilePlugin> plugins = ServiceLoader.load(layer, TilePlugin.class);
-        plugins.forEach(tilePlugin -> {
+        ServiceLoader<TilePlugin> loader = ServiceLoader.load(layer, TilePlugin.class);
+
+        Collection<TilePlugin> plugins = new LinkedHashSet<>();
+        loader.forEach(tilePlugin -> {
             if (tilePlugin.getClass().getModule().getLayer() == layer) {
-                tilePlugin.register(TileContext.getInstance());
+                plugins.add(tilePlugin);
             }
         });
+
+        PluginRegistry.getInstance()
+            .registerPlugins(layer, plugins);
     }
 
     @Override
     public void pluginRemoved(PluginDescriptor plugin) {
-        ModuleLayer layer = plugin.getModuleLayer();
-
-        PluginRegistry.getInstance().clearPlugins(layer, TileContext.getInstance());
+        PluginRegistry.getInstance()
+            .unregisterPlugins(plugin.getModuleLayer());
     }
 }
