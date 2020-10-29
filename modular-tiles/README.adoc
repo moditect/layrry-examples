@@ -14,7 +14,7 @@ image::javafx-layrry.gif[Modular JavaFX tiles based on Layrry]
 - link:https://github.com/jbangdev/jbang[jbang] (optional)
 
 **NOTE**: Layrry has yet to be published to Maven Central. You have to build your own snapshot for the time being.
-JDK 15 is needed to build Layrry.
+JDK 11 is needed to build Layrry.
 
 ```sh
 $ git clone https://github.com/moditect/layrry.git

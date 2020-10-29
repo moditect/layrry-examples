@@ -1,6 +1,3 @@
-import com.example.layrry.links.core.spi.RouterContributor;
-import com.example.layrry.links.membership.internal.MembersRouterContributor;
-
 /**
  *  Copyright 2020 The ModiTect authors
  *
@@ -17,8 +14,11 @@ import com.example.layrry.links.membership.internal.MembersRouterContributor;
  *  limitations under the License.
  */
 
-module com.example.layrry.links.membership {
+import org.moditect.layrry.examples.links.core.spi.RouterContributor;
+import org.moditect.layrry.examples.links.membership.internal.MembersRouterContributor;
+
+module org.moditect.layrry.examples.links.membership {
     requires org.moditect.layrry.platform;
-    requires com.example.layrry.links.core;
+    requires org.moditect.layrry.examples.links.core;
     provides RouterContributor with MembersRouterContributor;
 }

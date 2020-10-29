@@ -7,13 +7,13 @@ This app demonstrates the usage of Layrry with dynamic modules in Vert.x.
 
 ## Prerequisites
 
-- JDK 11
-- Maven 3.6.3 or Gradle 6+ (project includes wrappers for each)
+- JDK 15
+- Maven 3.6.3
 - Layrry 1.0-SNAPSHOT
 - [jbang](https://github.com/jbangdev/jbang) (optional)
 
 **NOTE**: Layrry has yet to be published to Maven Central. You have to build your own snapshot for the time being.
-JDK 15 is needed to build Layrry.
+JDK 11 is needed to build Layrry.
 
 ```sh
 $ git clone https://github.com/moditect/layrry.git
@@ -45,10 +45,10 @@ $ jbang layrry@moditect --layers-config staging/layers.yml --properties staging/
 
 Example output
 ```
-23:10:50.284 [main] INFO  c.e.l.l.c.i.LayrryLinksVerticle - Adding plug-in: PluginDescriptor [name=plugins-layrry-links-membership-1.0.0, moduleLayer=com.example.layrry.links.membership]
-23:10:50.417 [vert.x-eventloop-thread-0] INFO  c.e.l.l.c.i.LayrryLinksVerticle - Adding router for path: /routes
-23:10:50.422 [vert.x-eventloop-thread-0] INFO  c.e.l.l.c.i.LayrryLinksVerticle - Adding router for path: /members
-23:10:50.470 [vert.x-eventloop-thread-0] INFO  c.e.l.l.c.i.LayrryLinksVerticle - Server ready! Browse to http://localhost:8080/routes
+23:10:50.284 [main] INFO  c.e.l.l.c.i.LayrryLinksVerticle - Adding plug-in: PluginDescriptor [name=plugins-layrry-links-membership-1.0.0, moduleLayer=org.moditect.layrry.examples.links.membership]
+23:10:50.417 [vert.x-eventloop-thread-0] INFO  o.m.l.e.l.c.i.LayrryLinksVerticle - Adding router for path: /routes
+23:10:50.422 [vert.x-eventloop-thread-0] INFO  o.m.l.e.l.c.i.LayrryLinksVerticle - Adding router for path: /members
+23:10:50.470 [vert.x-eventloop-thread-0] INFO  o.m.l.e.l.c.i.LayrryLinksVerticle - Server ready! Browse to http://localhost:8080/routes
 ```
 
 # Dynamically manage modules

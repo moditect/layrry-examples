@@ -13,12 +13,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+package org.moditect.layrry.examples.links.core;
 
-import org.moditect.layrry.examples.links.core.spi.RouterContributor;
-import org.moditect.layrry.examples.links.tournament.internal.TournamentsRouterContributor;
+import org.moditect.layrry.examples.links.core.internal.LayrryLinksVerticle;
 
-module org.moditect.layrry.examples.links.tournament {
-    requires org.moditect.layrry.platform;
-    requires org.moditect.layrry.examples.links.core;
-    provides RouterContributor with TournamentsRouterContributor;
+import io.vertx.core.Vertx;
+
+/**
+ * The Layrry Links Golf Course Management Application.
+ */
+public class LayrryLinks {
+
+    public static void main(final String[] args) {
+        Vertx vertx = Vertx.vertx();
+        vertx.deployVerticle(new LayrryLinksVerticle());
+    }
 }

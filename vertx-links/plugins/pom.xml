@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.moditect.layrry.links</groupId>
+        <groupId>org.moditect.layrry.examples.links</groupId>
         <artifactId>layrry-links-root</artifactId>
         <version>1.0.0</version>
     </parent>
@@ -30,7 +30,7 @@
     <artifactId>layrry-links-plugin-common</artifactId>
     <packaging>pom</packaging>
 
-    <name>layrry-links-plugin-common</name>
+    <name>Layrry Links - Plug-ins</name>
 
     <modules>
         <module>layrry-links-greenkeeping</module>
@@ -40,7 +40,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.example.layrry.links</groupId>
+            <groupId>org.moditect.layrry.examples.links</groupId>
             <artifactId>layrry-links-core</artifactId>
         </dependency>
         <dependency>

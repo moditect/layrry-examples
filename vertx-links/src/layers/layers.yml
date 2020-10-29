@@ -29,11 +29,11 @@ layers:
         modules:
             - "org.apache.logging.log4j:log4j-api:jar:{{log4j_version}}"
             - "org.apache.logging.log4j:log4j-core:jar:{{log4j_version}}"
-            - "com.example.layrry.links:layrry-links-logconfig:{{project_version}}"
+            - "org.moditect.layrry.examples.links:layrry-links-logconfig:{{project_version}}"
     platform:
         modules:
             - "org.moditect.layrry:layrry-platform:{{layrry_version}}"
-            - "com.example.layrry.links:layrry-links-core:{{project_version}}"
+            - "org.moditect.layrry.examples.links:layrry-links-core:{{project_version}}"
         parents:
             - "log"
             - "vertx"
@@ -48,5 +48,5 @@ layers:
             - "log"
         directory: route-plugins2
 main:
-    module: com.example.layrry.links.core
-    class: com.example.layrry.links.core.LayrryLinks
+    module: org.moditect.layrry.examples.links.core
+    class: org.moditect.layrry.examples.links.core.LayrryLinks
