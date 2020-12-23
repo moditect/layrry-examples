@@ -47,7 +47,6 @@
         <module>core/modular-tiles-core</module>
         <module>tiles</module>
         <module>app/modular-tiles-app</module>
-        <!--module>app/modular-tiles-launcher</module-->
     </modules>
 
     <dependencyManagement>

@@ -175,12 +175,28 @@ task cleanStaging(type: Delete) {
 }
 clean.dependsOn(cleanStaging)
 
-task copyPluginsPrepared(type: Copy) {
-    dependsOn tilePlugins.collect { plugin -> project(plugin).distTar }
-    from tilePlugins.collect { plugin -> tarTree(project(plugin).distTar.archiveFile) }
+task copyJars(type: Copy) {
+    dependsOn tilePlugins.collect { plugin -> project(plugin).jar }
+    from tilePlugins.collect { plugin -> project(plugin).jar.archiveFile }
     into(project.layout.projectDirectory.dir('staging/plugins-prepared'))
     doLast {
         project.layout.projectDirectory.dir('staging/plugins').asFile.mkdirs()
     }
 }
-assemble.dependsOn(copyPluginsPrepared)
+task copyZips(type: Copy) {
+    dependsOn tilePlugins.collect { plugin -> project(plugin).distZip }
+    from tilePlugins.collect { plugin -> project(plugin).distZip.archiveFile }
+    into(project.layout.projectDirectory.dir('staging/plugins-prepared'))
+    doLast {
+        project.layout.projectDirectory.dir('staging/plugins').asFile.mkdirs()
+    }
+}
+task copyTars(type: Copy) {
+    dependsOn tilePlugins.collect { plugin -> project(plugin).distTar }
+    from tilePlugins.collect { plugin -> project(plugin).distTar.archiveFile }
+    into(project.layout.projectDirectory.dir('staging/plugins-prepared'))
+    doLast {
+        project.layout.projectDirectory.dir('staging/plugins').asFile.mkdirs()
+    }
+}
+assemble.dependsOn(copyJars, copyZips, copyTars)

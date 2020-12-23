@@ -24,6 +24,7 @@
     <includeBaseDirectory>true</includeBaseDirectory>
 
     <formats>
+        <format>zip</format>
         <format>tar.gz</format>
     </formats>
     <files>

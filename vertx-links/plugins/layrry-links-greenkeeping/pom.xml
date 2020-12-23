@@ -34,20 +34,13 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <skipAssembly>false</skipAssembly>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <id>copy-tiles</id>
+            <id>copy-plugin</id>
             <phase>install</phase>
             <goals>
-              <goal>unpack</goal>
+              <goal>copy</goal>
             </goals>
             <configuration>
               <artifactItems>
@@ -55,8 +48,7 @@
                   <groupId>${project.groupId}</groupId>
                   <artifactId>${project.artifactId}</artifactId>
                   <version>${project.version}</version>
-                  <type>tar.gz</type>
-                  <overWrite>false</overWrite>
+                  <overWrite>true</overWrite>
                   <outputDirectory>${session.executionRootDirectory}/staging/plugins-prepared</outputDirectory>
                 </artifactItem>
               </artifactItems>
