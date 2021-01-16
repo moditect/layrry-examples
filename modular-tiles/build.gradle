@@ -1,7 +1,7 @@
 /*
  * SPDX-License-Identifier: Apache-2.0
  *
- * Copyright 2020 Andres Almiray.
+ * Copyright 2020-2021 Andres Almiray.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -175,10 +175,17 @@ task cleanStaging(type: Delete) {
 }
 clean.dependsOn(cleanStaging)
 
+task flatRepository(type: Copy) {
+    from project(':modular-tiles-app').tasks.jar.archiveFile.asFile
+    into project.layout.projectDirectory.dir('staging/repositories/flat')
+    from project(':modular-tiles-app').configurations.runtimeClasspath
+    into(project.layout.projectDirectory.dir('staging/repositories/flat'))
+}
+
 task copyJars(type: Copy) {
     dependsOn tilePlugins.collect { plugin -> project(plugin).jar }
     from tilePlugins.collect { plugin -> project(plugin).jar.archiveFile }
-    into(project.layout.projectDirectory.dir('staging/plugins-prepared'))
+    into project.layout.projectDirectory.dir('staging/plugins-prepared')
     doLast {
         project.layout.projectDirectory.dir('staging/plugins').asFile.mkdirs()
     }
@@ -186,7 +193,7 @@ task copyJars(type: Copy) {
 task copyZips(type: Copy) {
     dependsOn tilePlugins.collect { plugin -> project(plugin).distZip }
     from tilePlugins.collect { plugin -> project(plugin).distZip.archiveFile }
-    into(project.layout.projectDirectory.dir('staging/plugins-prepared'))
+    into project.layout.projectDirectory.dir('staging/plugins-prepared')
     doLast {
         project.layout.projectDirectory.dir('staging/plugins').asFile.mkdirs()
     }
@@ -194,9 +201,9 @@ task copyZips(type: Copy) {
 task copyTars(type: Copy) {
     dependsOn tilePlugins.collect { plugin -> project(plugin).distTar }
     from tilePlugins.collect { plugin -> project(plugin).distTar.archiveFile }
-    into(project.layout.projectDirectory.dir('staging/plugins-prepared'))
+    into project.layout.projectDirectory.dir('staging/plugins-prepared')
     doLast {
         project.layout.projectDirectory.dir('staging/plugins').asFile.mkdirs()
     }
 }
-assemble.dependsOn(copyJars, copyZips, copyTars)
+assemble.dependsOn(flatRepository, copyJars, copyZips, copyTars)

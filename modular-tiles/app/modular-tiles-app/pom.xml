@@ -2,7 +2,7 @@
 
     SPDX-License-Identifier: Apache-2.0
 
-    Copyright 2020 Andres Almiray.
+    Copyright 2020-2021 Andres Almiray.
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -46,6 +46,29 @@
                 <configuration>
                     <skip>false</skip>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>flat-repository-update</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>${project.artifactId}</artifactId>
+                                    <version>${project.version}</version>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${session.executionRootDirectory}/staging/repositories/flat</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
