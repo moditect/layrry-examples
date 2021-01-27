@@ -37,7 +37,7 @@ public class Main extends Application {
         PerspectiveCamera camera = new PerspectiveCamera();
         camera.setFieldOfView(10);
 
-        Scene scene = new Scene(new Group(view.getContent()));
+        Scene scene = new Scene(view.getContent());
         scene.setCamera(camera);
 
         PluginRegistry.getInstance().initializeDeferredPlugins();

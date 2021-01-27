@@ -21,6 +21,7 @@ import eu.hansolo.tilesfx.tools.FlowGridPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -42,7 +43,7 @@ public class View {
         tileContainer.setBackground(new Background(new BackgroundFill(Color.web("#101214"), CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
-    public Node getContent() {
+    public Parent getContent() {
         return tileContainer;
     }
 }
