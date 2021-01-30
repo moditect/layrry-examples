@@ -33,7 +33,7 @@
         <maven.compiler.release>11</maven.compiler.release>
         <javafx_version>11.0.2</javafx_version>
         <javafx.plugin.version>0.0.4</javafx.plugin.version>
-        <layrry_version>1.0-SNAPSHOT</layrry_version>
+        <layrry_version>1.0.0.Alpha1</layrry_version>
         <project_version>${project.version}</project_version>
         <tilesfx_version>11.44</tilesfx_version>
         <javafx.skip>true</javafx.skip>

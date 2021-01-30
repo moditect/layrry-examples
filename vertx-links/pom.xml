@@ -30,7 +30,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>15</maven.compiler.release>
-    <layrry_version>1.0-SNAPSHOT</layrry_version>
+    <layrry_version>1.0.0.Alpha1</layrry_version>
     <project_version>${project.version}</project_version>
     <vertx_version>3.9.0</vertx_version>
     <log4j_version>2.13.1</log4j_version>

@@ -28,7 +28,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>11</maven.compiler.release>
-        <layrry.version>1.0-SNAPSHOT</layrry.version>
+        <layrry.version>1.0.0.Alpha1</layrry.version>
         <exec.skip>true</exec.skip>
         <exec.mainClass>**undefined**</exec.mainClass>
     </properties>

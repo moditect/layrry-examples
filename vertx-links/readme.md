@@ -9,10 +9,11 @@ This app demonstrates the usage of Layrry with dynamic modules in Vert.x.
 
 - JDK 15
 - Maven 3.6.3
-- Layrry 1.0-SNAPSHOT
+- Layrry 1.0.0.Alpha1
 - [jbang](https://github.com/jbangdev/jbang) (optional)
 
-**NOTE**: Layrry has yet to be published to Maven Central. You have to build your own snapshot for the time being.
+Download Layrry from [https://github.com/moditect/layrry/releases/tag/1.0.0.Alpha1](https://github.com/moditect/layrry/releases/tag/1.0.0.Alpha1), or install it via
+[SDKMAN!](https://sdkmain.io), or build it from source.
 JDK 11 is needed to build Layrry.
 
 ```sh
@@ -34,10 +35,10 @@ Plugins will be placed under `staging/plugins-prepared` at the root.
 Run it directly from the layrry-launcher JAR (assuming Layrry repo was cloned adjacent to this repo)
 
 ```sh
-$ java --enable-preview -jar ../../layrry/layrry-launcher/target/layrry-launcher-1.0-SNAPSHOT-all.jar --layers-config staging/layers.yml --properties staging/versions.properties
+$ java --enable-preview -jar ../../layrry/layrry-launcher/target/layrry-launcher-1.0.0.Alpha1-all.jar --layers-config staging/layers.yml --properties staging/versions.properties
 ```
 
-.jbang
+**JBang**
 
 ```sh
 $ jbang layrry@moditect --layers-config staging/layers.yml --properties staging/versions.properties

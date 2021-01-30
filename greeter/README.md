@@ -11,10 +11,11 @@ This app demonstrates the usage of Layrry with conflicting module versions.
 
 - JDK 11
 - Maven 3.6.3
-- Layrry 1.0-SNAPSHOT
+- Layrry 1.0.0.Alpha1
 - [jbang](https://github.com/jbangdev/jbang) (optional)
 
-**NOTE**: Layrry has yet to be published to Maven Central. You have to build your own snapshot for the time being.
+Download Layrry from [https://github.com/moditect/layrry/releases/tag/1.0.0.Alpha1](https://github.com/moditect/layrry/releases/tag/1.0.0.Alpha1), or install it via
+[SDKMAN!](https://sdkmain.io), or build it from source.
 JDK 11 is needed to build Layrry.
 
 ```sh
@@ -34,18 +35,26 @@ $ ./mvnw install
 Run it directly from the layrry-launcher JAR (assuming Layrry repo was cloned adjacent to this repo)
 
 ```sh
-$ java -jar ../../layrry/layrry-launcher/target/layrry-launcher-1.0-SNAPSHOT-all.jar --layers-config staging/layers.yml
+$ java -jar ../../layrry/layrry-launcher/target/layrry-launcher-1.0.0.Alpha1-all.jar --layers-config staging/layers.yml
 ```
 
-.Maven
+**Maven**
 
 ```sh
 $ ./mvnw -am -pl :runner exec:exec@run-yaml
 $ ./mvnw -am -pl :runner exec:exec@run-toml
 ```
 
-.jbang
+**JBang**
 
 ```sh
 $ jbang layrry@moditect --layers-config staging/layers.yml
+```
+
+**Binary**
+
+If you installed the binary distribution from the release page or from SDKMAN!
+
+```sh
+$ layrry --layers-config staging/layers.yml
 ```
