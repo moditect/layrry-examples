@@ -39,7 +39,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Build and Deploy
-        run: mvn install deploy --file modular-tiles/pom.xml -DskipTests
+        run: mvn --batch-mode install deploy --file modular-tiles/pom.xml -DskipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
