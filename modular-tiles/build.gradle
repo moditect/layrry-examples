@@ -24,9 +24,9 @@ config {
         tags          = ['kordamp', 'javafx', 'tilesfx', 'modules']
 
         links {
-            website      = "https://github.com/aalmiray/${rootProject.name}"
-            issueTracker = "https://github.com/aalmiray/${rootProject.name}/issues"
-            scm          = "https://github.com/aalmiray/${rootProject.name}.git"
+            website      = 'https://github.com/moditect/layrry-examples'
+            issueTracker = 'https://github.com/moditect/layrry-examples/issues'
+            scm          = 'https://github.com/moditect/layrry-examples.git'
         }
 
         specification  { enabled = false }
@@ -35,10 +35,20 @@ config {
 
         people {
             person {
+                id    = 'gunnarmorling'
+                name  = 'Gunnar Morling'
+                url   = 'http://morling.dev/'
+                roles = ['developer']
+                properties = [
+                    twitter: 'gunnarmorling',
+                    github : 'gunnarmorling'
+                ]
+            }
+            person {
                 id    = 'aalmiray'
                 name  = 'Andres Almiray'
                 url   = 'http://andresalmiray.com/'
-                roles = ['developer']
+                roles = ['developer', 'author']
                 properties = [
                     twitter: 'aalmiray',
                     github : 'aalmiray'
@@ -88,7 +98,7 @@ projects {
         }
         
         repositories {
-            jcenter()
+            mavenCentral()
             mavenLocal()
         }
     }

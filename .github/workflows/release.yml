@@ -1,0 +1,56 @@
+#
+#  Copyright 2020 The ModiTect authors
+#
+#  Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+#
+
+name: Build
+
+on: [ push, pull_request ]
+
+jobs:
+  release:
+    if: github.event_name == 'push' && github.repository == 'moditect/layrry-examples' && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+      - name: Cache Maven
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+      - name: Build and Deploy
+        run: mvn install deploy --file modular-tiles/pom.xml -DskipTests
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+#      - name: 'Release early-access artifacts'
+#        uses: marvinpinto/action-automatic-releases@latest
+#        with:
+#          automatic_release_tag: 'early-access'
+#          repo_token: ${{ secrets.GITHUB_TOKEN }}
+#          prerelease: true
+#          title: "Modular Tiles"
+#          files: |
+#            modular-tiles/staging/layers-remote.properties
+#            modular-tiles/staging/versions.properties
+#            modular-tiles/staging/modular-settings.xml
